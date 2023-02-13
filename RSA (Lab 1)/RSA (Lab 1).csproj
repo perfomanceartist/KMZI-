@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>RSA__Lab_1_</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>ic-favi.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="ic-favi.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CryptoEnvelope\CryptoEnvelope.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CryptoEnvelope">
+      <HintPath>..\CryptoEnvelope\bin\Debug\net6.0\CryptoEnvelope.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

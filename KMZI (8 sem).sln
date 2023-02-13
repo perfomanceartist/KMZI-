@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA (Lab 1)", "RSA (Lab 1)\RSA (Lab 1).csproj", "{B0CEF631-3AFB-4C0A-8AE5-CE27A9DFA781}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoEnvelope", "CryptoEnvelope\CryptoEnvelope.csproj", "{4657033C-69BB-4AEF-A808-F4394E175834}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeGenerator", "PrimeGenerator\PrimeGenerator.csproj", "{D0FAD4D7-AAFF-4828-8DD8-0F9952F44CDF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0CEF631-3AFB-4C0A-8AE5-CE27A9DFA781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CEF631-3AFB-4C0A-8AE5-CE27A9DFA781}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CEF631-3AFB-4C0A-8AE5-CE27A9DFA781}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CEF631-3AFB-4C0A-8AE5-CE27A9DFA781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4657033C-69BB-4AEF-A808-F4394E175834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4657033C-69BB-4AEF-A808-F4394E175834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4657033C-69BB-4AEF-A808-F4394E175834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4657033C-69BB-4AEF-A808-F4394E175834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0FAD4D7-AAFF-4828-8DD8-0F9952F44CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0FAD4D7-AAFF-4828-8DD8-0F9952F44CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0FAD4D7-AAFF-4828-8DD8-0F9952F44CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0FAD4D7-AAFF-4828-8DD8-0F9952F44CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {07F05CA9-0CB6-4F32-866E-A532DFF64387}
+	EndGlobalSection
+EndGlobal
