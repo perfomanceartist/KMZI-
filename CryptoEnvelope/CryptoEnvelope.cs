@@ -129,9 +129,59 @@ namespace RSA__Lab_1_
             return plainBytes;
         }
 
-        public void GenerateRSAKeys(int keySize, string N, out string E, out string D)
+        private BigInteger getRandomBigInteger(int length)
         {
-            throw new NotImplementedException();
+            Random random = new Random();
+            byte[] data = new byte[length];
+            random.NextBytes(data);
+            return new BigInteger(data, true);
+        }
+
+        private BigInteger ExtendedEuclide(BigInteger a, BigInteger b)//Принимает E и N
+        {
+            BigInteger x1 = 0;
+            BigInteger x2 = 1;
+            BigInteger y1 = 1;
+            BigInteger y2 = 0;
+            BigInteger B = b;
+            while (b > 0)
+            {
+                BigInteger q = a / b;
+                BigInteger r = a - q * b;
+                BigInteger x = x = x2 - q * x1;
+                BigInteger y = y2 - q * y1;
+                a = b;
+                b = r;
+                x2 = x1;
+                x1 = x;
+                y2 = y1;
+                y1 = y;
+            }
+            if (x2 < 0)
+            {
+                x2 += B;
+            }
+            return x2;
+        } //Расширенный алгоритм Евклида возвращает Х(который в RSA является секретным ключем D)
+    
+
+
+
+        public void GenerateRSAKeys(string P, string Q, out string E, out string D)
+        {
+            //throw new NotImplementedException();
+            BigInteger bigP = BigInteger.Parse(P);
+            BigInteger bigQ = BigInteger.Parse(Q);
+            BigInteger phi = (bigP - 1) * (bigQ - 1);
+
+            BigInteger e = getRandomBigInteger(phi.ToByteArray().Length);
+            BigInteger d = ExtendedEuclide(e, phi);
+            //ПРОВЕРКА
+
+            BigInteger check = (e * d) % phi;
+
+            E = e.ToString();
+            D = d.ToString();
         }
 
         public void GenerateRSAKeys(int keySize, out string N, out string P, out string Q, out string E, out string D)

@@ -43,7 +43,9 @@ namespace RSA__Lab_1_
             if (checkBoxFixN.Checked)
             {
                 N = textBoxN.Text; // Всегда подходящее число, т.к. нельзя ввести вручную
-                envelope.GenerateRSAKeys(keySize, N, out E, out D);
+                P = textBoxP.Text;
+                Q = textBoxQ.Text;
+                envelope.GenerateRSAKeys(P, Q, out E, out D);
                 textBoxE.Text = E;
                 textBoxD.Text = D;
             }
