@@ -45,6 +45,7 @@
             this.labelD = new System.Windows.Forms.Label();
             this.checkBoxFixN = new System.Windows.Forms.CheckBox();
             this.buttonGenerate = new System.Windows.Forms.Button();
+            this.saveFileDialogKey = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // buttonExportPublicKey
@@ -238,5 +239,6 @@
         private Label labelD;
         private CheckBox checkBoxFixN;
         private Button buttonGenerate;
+        private SaveFileDialog saveFileDialogKey;
     }
 }

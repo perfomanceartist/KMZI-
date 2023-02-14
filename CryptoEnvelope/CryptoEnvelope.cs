@@ -169,16 +169,19 @@ namespace RSA__Lab_1_
 
         public void GenerateRSAKeys(string P, string Q, out string E, out string D)
         {
+            
             //throw new NotImplementedException();
             BigInteger bigP = BigInteger.Parse(P);
             BigInteger bigQ = BigInteger.Parse(Q);
             BigInteger phi = (bigP - 1) * (bigQ - 1);
+            BigInteger e, d;
+            do
+            {
+                e = getRandomBigInteger(phi.ToByteArray().Length);
+                d = ExtendedEuclide(e, phi);
+            } while ((e * d) % phi != 1  && (81*d*d*d*d > bigP*bigQ) );
 
-            BigInteger e = getRandomBigInteger(phi.ToByteArray().Length);
-            BigInteger d = ExtendedEuclide(e, phi);
-            //ПРОВЕРКА
-
-            BigInteger check = (e * d) % phi;
+            bool check = (e * d) % phi == 1;
 
             E = e.ToString();
             D = d.ToString();
@@ -186,21 +189,62 @@ namespace RSA__Lab_1_
 
         public void GenerateRSAKeys(int keySize, out string N, out string P, out string Q, out string E, out string D)
         {
-            using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(keySize))
+            bool contin = false;
+            byte[] byteN, byteP, byteQ, byteD;
+            BigInteger bigN, bigP, bigQ, bigE, bigD, bigPhi;
+            do
             {
-                RSAParameters RSAKeyInfo = RSA.ExportParameters(true);
-                //BigInteger p = new BigInteger(RSAKeyInfo.P);
-                //BigInteger q = new BigInteger(RSAKeyInfo.Q);
-                //BigInteger phi = (p - 1) * (q - 1);
+                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(keySize))
+                {
+                    RSAParameters RSAKeyInfo = RSA.ExportParameters(true);
+                    //BigInteger p = new BigInteger(RSAKeyInfo.P);
+                    //BigInteger q = new BigInteger(RSAKeyInfo.Q);
+                    //BigInteger phi = (p - 1) * (q - 1);
 
-                N = (new BigInteger(RSAKeyInfo.Modulus, true)).ToString();
-                P = (new BigInteger(RSAKeyInfo.P, true)).ToString();
-                Q = (new BigInteger(RSAKeyInfo.Q, true)).ToString();
-                E = new BigInteger(RSAKeyInfo.Exponent, true).ToString();
-                D = new BigInteger(RSAKeyInfo.D, true).ToString();
-            }
+                    
 
-                
+                    
+                    byteN = new byte[RSAKeyInfo.Modulus.Length];
+                    byteP = new byte[RSAKeyInfo.P.Length];
+                    byteQ = new byte[RSAKeyInfo.Q.Length];
+                    byteD = new byte[RSAKeyInfo.D.Length];
+                    RSAKeyInfo.Modulus.CopyTo(byteN, 0);
+                    RSAKeyInfo.P.CopyTo(byteP, 0);
+                    RSAKeyInfo.Q.CopyTo(byteQ, 0);
+                    RSAKeyInfo.D.CopyTo(byteD, 0);
+                    Array.Reverse(byteN);
+                    Array.Reverse(byteP);
+                    Array.Reverse(byteQ);
+                    Array.Reverse(byteD);
+
+                    bigN = new BigInteger(byteN, true);
+                    bigP = new BigInteger(byteP, true);
+                    bigQ = new BigInteger(byteQ, true);
+                    bigE = new BigInteger(RSAKeyInfo.Exponent, true);
+                    bigD = new BigInteger(byteD, true);
+                    bigPhi = (bigP - 1) * (bigQ - 1);
+
+
+                    bool checkPhi = (((bigE * bigD) % bigPhi) == 1);
+                    bool checkN = (bigN == bigP * bigQ);
+
+                    if (81 * bigD * bigD * bigD * bigD < bigN) continue; // Атака Винера
+
+                    contin = true;
+
+                    
+
+                    
+
+                }
+            } while (contin);
+
+            N = bigN.ToString();
+            P = bigP.ToString();
+            Q = bigQ.ToString();
+            E = bigE.ToString();
+            D = bigD.ToString();
+
         }
 
         public byte[] CalculateSHA256(byte[] data)
@@ -281,7 +325,21 @@ namespace RSA__Lab_1_
         }
 
 
-        
+        public void ExportPublicKey(string path, string N, string E)
+        {
+            BigInteger bigN = BigInteger.Parse(N);
+            BigInteger bigE = BigInteger.Parse(E);
+            RSAPublicKey key = new RSAPublicKey(bigE, bigN);
+            RSAPublicKey.WriteToFile(key, path);
+        }
+
+        public void ExportPrivateKey(string path, string N, string D)
+        {
+            BigInteger bigN = BigInteger.Parse(N);
+            BigInteger bigD = BigInteger.Parse(D);
+            RSAPrivateKey key = new RSAPrivateKey(bigN, bigD);
+            RSAPrivateKey.WriteToFile(key, path);
+        }
 
         public byte[] EncryptFile(string filenameRSA, string filenameAES, string filenameData)
         {
@@ -305,14 +363,15 @@ namespace RSA__Lab_1_
         {
             byte[] encrypted = ToAes256(data, AESKey);
 
-
+            Console.WriteLine("N:" + rsaPublicKey.N.ToString());
+            Console.WriteLine("E:" + rsaPublicKey.E.ToString());
             Console.WriteLine("AES before encrypting: " + BitConverter.ToString(AESKey));
 
             BigInteger aesBigInt = new BigInteger(AESKey);
             Console.WriteLine("AES before encrypting (BigInteger): " + aesBigInt.ToString());
-            aesBigInt = RSAEncrypt(aesBigInt, rsaPublicKey);
+            aesBigInt = RSAEncrypt(aesBigInt, rsaPublicKey) % rsaPublicKey.N;
             Console.WriteLine("AES after encrypting (BigInteger): " + aesBigInt.ToString());
-            Console.WriteLine("AES after encrypting: " + BitConverter.ToString(AESKey));
+            Console.WriteLine("AES after encrypting: " + BitConverter.ToString(aesBigInt.ToByteArray()));
 
 
 
@@ -333,12 +392,15 @@ namespace RSA__Lab_1_
             ASN.decodeEncryptionHeader(data, out tempKey, out AESKey, out message);
 
             //string messageString = Encoding.ASCII.GetString(message);
-
+            Console.WriteLine("tempKey.N:" + tempKey.N.ToString());
+            Console.WriteLine("rsaPrivateKey.N:" + rsaPrivateKey.N.ToString()); //tempKEY.N - правильно, rsaPrivateKey.N - нет
+            Console.WriteLine("D:" + rsaPrivateKey.D.ToString());
             Console.WriteLine("AES before decrypting: " + BitConverter.ToString(AESKey));
 
             BigInteger aesBigInt = new BigInteger(AESKey);
             Console.WriteLine("AES before decrypting (BigInteger): " + aesBigInt.ToString());
-            BigInteger aesBigIntDec = RSADecrypt(aesBigInt, rsaPrivateKey);
+            BigInteger aesBigIntDec = RSADecrypt(aesBigInt, rsaPrivateKey) % rsaPrivateKey.N; 
+            //aesBigIntDec = aesBigInt % BigInteger.Pow(2, 256);
             Console.WriteLine("AES after decrypting (BigInteger): " + aesBigIntDec.ToString());
             AESKey = aesBigIntDec.ToByteArray();
 

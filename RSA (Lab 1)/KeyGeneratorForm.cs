@@ -75,17 +75,34 @@ namespace RSA__Lab_1_
 
         private void buttonExportPublicKey_Click(object sender, EventArgs e)
         {
+            string N = textBoxN.Text;
+            string E = textBoxE.Text;
+            string D = textBoxD.Text;
 
+            saveFileDialogKey.Title = "Открытый ключ";
+            if (saveFileDialogKey.ShowDialog() == DialogResult.Cancel) return;
+            string path = saveFileDialogKey.FileName;
+            CryptoEnvelope envelope = new CryptoEnvelope();
+            envelope.ExportPublicKey(path, N, E);
         }
 
         private void buttonExportPrivateKey_Click(object sender, EventArgs e)
         {
+            string N = textBoxN.Text;
+            string E = textBoxE.Text;
+            string D = textBoxD.Text;
 
+            saveFileDialogKey.Title = "Закрытый ключ";
+            if (saveFileDialogKey.ShowDialog() == DialogResult.Cancel) return;
+            string path = saveFileDialogKey.FileName;
+            CryptoEnvelope envelope = new CryptoEnvelope();
+            envelope.ExportPrivateKey(path, N, D);
         }
 
         private void textBoxKeyLength_TextChanged(object sender, EventArgs e)
         {
 
         }
+
     }
 }
