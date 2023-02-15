@@ -66,6 +66,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьКлючToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.атакаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ключиСОбщимМодулемToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.атакаВинераToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.малыйОбщийПоказательToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl.SuspendLayout();
             this.tabPageCipher.SuspendLayout();
@@ -447,6 +451,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
+            this.атакаToolStripMenuItem,
             this.оПрограммеToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -468,6 +473,37 @@
             this.создатьКлючToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.создатьКлючToolStripMenuItem.Text = "Создать ключ...";
             this.создатьКлючToolStripMenuItem.Click += new System.EventHandler(this.создатьКлючToolStripMenuItem_Click);
+            // 
+            // атакаToolStripMenuItem
+            // 
+            this.атакаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ключиСОбщимМодулемToolStripMenuItem,
+            this.атакаВинераToolStripMenuItem,
+            this.малыйОбщийПоказательToolStripMenuItem});
+            this.атакаToolStripMenuItem.Name = "атакаToolStripMenuItem";
+            this.атакаToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.атакаToolStripMenuItem.Text = "Атака";
+            // 
+            // ключиСОбщимМодулемToolStripMenuItem
+            // 
+            this.ключиСОбщимМодулемToolStripMenuItem.Name = "ключиСОбщимМодулемToolStripMenuItem";
+            this.ключиСОбщимМодулемToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.ключиСОбщимМодулемToolStripMenuItem.Text = "Ключи с общим модулем";
+            this.ключиСОбщимМодулемToolStripMenuItem.Click += new System.EventHandler(this.ключиСОбщимМодулемToolStripMenuItem_Click);
+            // 
+            // атакаВинераToolStripMenuItem
+            // 
+            this.атакаВинераToolStripMenuItem.Name = "атакаВинераToolStripMenuItem";
+            this.атакаВинераToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.атакаВинераToolStripMenuItem.Text = "Атака Винера";
+            this.атакаВинераToolStripMenuItem.Click += new System.EventHandler(this.атакаВинераToolStripMenuItem_Click);
+            // 
+            // малыйОбщийПоказательToolStripMenuItem
+            // 
+            this.малыйОбщийПоказательToolStripMenuItem.Name = "малыйОбщийПоказательToolStripMenuItem";
+            this.малыйОбщийПоказательToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.малыйОбщийПоказательToolStripMenuItem.Text = "Малый общий показатель";
+            this.малыйОбщийПоказательToolStripMenuItem.Click += new System.EventHandler(this.малыйОбщийПоказательToolStripMenuItem_Click);
             // 
             // оПрограммеToolStripMenuItem
             // 
@@ -543,5 +579,9 @@
         private ToolStripMenuItem файлToolStripMenuItem;
         private ToolStripMenuItem создатьКлючToolStripMenuItem;
         private ToolStripMenuItem оПрограммеToolStripMenuItem;
+        private ToolStripMenuItem атакаToolStripMenuItem;
+        private ToolStripMenuItem ключиСОбщимМодулемToolStripMenuItem;
+        private ToolStripMenuItem атакаВинераToolStripMenuItem;
+        private ToolStripMenuItem малыйОбщийПоказательToolStripMenuItem;
     }
 }

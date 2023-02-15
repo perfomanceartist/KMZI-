@@ -298,5 +298,23 @@ namespace RSA__Lab_1_
             KeyGeneratorForm form = new KeyGeneratorForm();
             form.Show();
         }
+
+        private void ключиСОбщимМодулемToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GeneralNForm form = new();
+            form.Show();
+        }
+
+        private void атакаВинераToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WienerForm form = new();
+            form.Show();
+        }
+
+        private void малыйОбщийПоказательToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GeneralEForm form = new();
+            form.Show();
+        }
     }
 }
