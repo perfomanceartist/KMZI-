@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RSA__Lab_1_
 {
@@ -15,6 +16,97 @@ namespace RSA__Lab_1_
         public GeneralNForm()
         {
             InitializeComponent();
+        }
+
+        string filenamePublicA;
+        string filenamePrivateA;
+        string filenamePublicB;
+
+
+        private void buttonCommonNAttack_Click(object sender, EventArgs e)
+        {
+            string P, Q, D;
+
+            CryptoEnvelope envelope = new CryptoEnvelope();
+            envelope.CommonNAttack(filenamePublicA, filenamePrivateA, filenamePublicB, out P, out Q, out D);
+
+            textBoxCommonNP.Text = P;
+            textBoxCommonNQ.Text = Q;
+            textBoxCommonND.Text = D;
+            groupBoxAttackResult.Visible = true;
+        }
+
+        private void buttonCommonNSavePrivateB_Click(object sender, EventArgs e)
+        {
+            string P = textBoxCommonNP.Text;
+            string Q = textBoxCommonNQ.Text;
+            string D = textBoxCommonND.Text;
+
+            saveFileDialog.Title = "Закрытый ключ жертвы";
+            if (saveFileDialog.ShowDialog() == DialogResult.Cancel) return;
+            string path = saveFileDialog.FileName;
+            CryptoEnvelope envelope = new CryptoEnvelope();
+            envelope.ExportPrivateKey(path, P, Q, D);
+        }
+
+        private void buttonCommonNPublicA_Click(object sender, EventArgs e)
+        {
+            openFileDialog.Title = "Открытый ключ А";
+            openFileDialog.Filter = "Файлы ключей (*.pam)|*.pam";
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+
+            filenamePublicA = openFileDialog.FileName;
+            string filename = filenamePublicA;
+
+            filename = Path.GetFileName(filename);
+            if (filename.Length > 20)
+            {
+                filename = filename.Substring(0, 20);
+                filename += "...";
+            }
+            labelCommonNPublicA.Text = filename;
+        }
+
+        private void buttonCommonNPrivateA_Click(object sender, EventArgs e)
+        {
+            openFileDialog.Title = "Закрытый ключ А";
+            openFileDialog.Filter = "Файлы ключей (*.pam)|*.pam";
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+
+            filenamePrivateA = openFileDialog.FileName;
+            string filename = filenamePrivateA;
+
+            filename = Path.GetFileName(filename);
+            if (filename.Length > 20)
+            {
+                filename = filename.Substring(0, 20);
+                filename += "...";
+            }
+            labelCommonNPrivateA.Text = filename;
+        }
+
+        private void buttonCommonNPublicB_Click(object sender, EventArgs e)
+        {
+            openFileDialog.Title = "Открытый ключ B (жертвы)";
+            openFileDialog.Filter = "Файлы ключей (*.pam)|*.pam";
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+
+            filenamePublicB = openFileDialog.FileName;
+            string filename = filenamePublicB;
+
+            filename = Path.GetFileName(filename);
+            if (filename.Length > 20)
+            {
+                filename = filename.Substring(0, 20);
+                filename += "...";
+            }
+            labelCommonNPublicB.Text = filename;
         }
     }
 }
