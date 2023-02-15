@@ -165,6 +165,15 @@ namespace RSA__Lab_1_
         } //Расширенный алгоритм Евклида возвращает Х(который в RSA является секретным ключем D)
     
 
+        public void CommonNAttack(string filenamePublicA, string filenamePrivateA, string filenamePublicB, out string P, out string Q, out string D)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ExportPrivateKey(string path, string P, string Q, string D)
+        {
+            throw new NotImplementedException();
+        }
 
 
         public void GenerateRSAKeys(string P, string Q, out string E, out string D)
@@ -192,6 +201,7 @@ namespace RSA__Lab_1_
             bool contin = false;
             byte[] byteN, byteP, byteQ, byteD;
             BigInteger bigN, bigP, bigQ, bigE, bigD, bigPhi;
+
             do
             {
                 using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(keySize))
@@ -201,7 +211,7 @@ namespace RSA__Lab_1_
                     //BigInteger q = new BigInteger(RSAKeyInfo.Q);
                     //BigInteger phi = (p - 1) * (q - 1);
 
-                    
+                    /*
 
                     
                     byteN = new byte[RSAKeyInfo.Modulus.Length];
@@ -217,20 +227,29 @@ namespace RSA__Lab_1_
                     Array.Reverse(byteQ);
                     Array.Reverse(byteD);
 
-                    bigN = new BigInteger(byteN, true);
-                    bigP = new BigInteger(byteP, true);
-                    bigQ = new BigInteger(byteQ, true);
-                    bigE = new BigInteger(RSAKeyInfo.Exponent, true);
-                    bigD = new BigInteger(byteD, true);
+                    */
+                    bigN = new BigInteger(RSAKeyInfo.Modulus, true, true);
+                    bigP = new BigInteger(RSAKeyInfo.P, true, true);
+                    bigQ = new BigInteger(RSAKeyInfo.Q, true, true);
+                    bigE = new BigInteger(RSAKeyInfo.Exponent, true, true);
+                    bigD = new BigInteger(RSAKeyInfo.D, true, true);
                     bigPhi = (bigP - 1) * (bigQ - 1);
 
 
                     bool checkPhi = (((bigE * bigD) % bigPhi) == 1);
                     bool checkN = (bigN == bigP * bigQ);
 
-                    if (81 * bigD * bigD * bigD * bigD < bigN) continue; // Атака Винера
 
-                    contin = true;
+                    BigInteger min = bigP < bigQ ? bigP : bigQ;
+                    BigInteger max = bigP > bigQ ? bigP : bigQ;
+
+                    if (min < 2 * max) // Атака Винера
+                    {
+                        if (81 * BigInteger.Pow(bigD, 4) < bigN) continue; 
+                    }
+                   
+
+                    contin = false;
 
                     
 
