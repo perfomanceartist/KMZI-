@@ -165,14 +165,68 @@ namespace RSA__Lab_1_
         } //Расширенный алгоритм Евклида возвращает Х(который в RSA является секретным ключем D)
     
 
-        public void CommonNAttack(string filenamePublicA, string filenamePrivateA, string filenamePublicB, out string P, out string Q, out string D)
+        public bool CommonNAttack(string filenamePublicA, string filenamePrivateA, string filenamePublicB, out string P, out string Q, out string D)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            RSAPublicKey publicA = RSAPublicKey.ReadFromFile(filenamePublicA);
+            RSAPublicKey publicB = RSAPublicKey.ReadFromFile(filenamePublicB);
+            RSAPrivateKey privateA = RSAPrivateKey.ReadFromFile(filenamePrivateA);
+
+            if (publicA.N != publicB.N || privateA.N != publicA.N) {
+                P = Q = D =  "";
+                return false;
+            }
+
+            BigInteger N = publicA.N;
+
+            //Представить разность 𝑒𝐵 𝑑𝐵 − 1 в виде 2^f * 𝑠, где 𝑠 – нечетное число
+            BigInteger sub = publicA.E * privateA.D - 1;
+            BigInteger s; BigInteger f = 0;
+            while (sub.IsEven)
+            {
+                sub /= 2; f++;
+            }
+            s = sub;
+
+            BigInteger p, q, d;
+
+            do
+            {
+                //Случайное b = a^s
+                BigInteger a = getRandomBigInteger(N.ToByteArray().Length) % N;
+                BigInteger b = BigInteger.ModPow(a, s, N);
+
+                BigInteger b1 = b, b2, t;
+                for (b2 = BigInteger.ModPow(b1, 2, N); b2 % N != 1; b1 = b2, b2 = BigInteger.ModPow(b2, 2, N)) ;
+                if (b1 % N == N - 1) continue;
+                t = b1;
+
+                p = BigInteger.GreatestCommonDivisor(t + 1, N);
+                q = BigInteger.GreatestCommonDivisor(t - 1, N);
+
+                BigInteger phi = (p - 1) * (q - 1);
+                d = ExtendedEuclide(publicB.E, phi);
+                if ((publicB.E * d ) % phi != 1) continue;
+                break;
+
+            } while (true);
+
+            P = p.ToString();
+            Q = q.ToString();
+            D = d.ToString();
+
+            return true;
         }
 
         public void ExportPrivateKey(string path, string P, string Q, string D)
         {
-            throw new NotImplementedException();
+            BigInteger bigP = BigInteger.Parse(P);
+            BigInteger bigQ = BigInteger.Parse(Q);
+            BigInteger bigD = BigInteger.Parse(D);
+
+            RSAPrivateKey key = new RSAPrivateKey(bigP * bigQ, bigD);
+            RSAPrivateKey.WriteToFile(key, path);
         }
 
 
@@ -198,18 +252,13 @@ namespace RSA__Lab_1_
 
         public void GenerateRSAKeys(int keySize, out string N, out string P, out string Q, out string E, out string D)
         {
-            bool contin = false;
             byte[] byteN, byteP, byteQ, byteD;
             BigInteger bigN, bigP, bigQ, bigE, bigD, bigPhi;
-
             do
             {
                 using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(keySize))
                 {
                     RSAParameters RSAKeyInfo = RSA.ExportParameters(true);
-                    //BigInteger p = new BigInteger(RSAKeyInfo.P);
-                    //BigInteger q = new BigInteger(RSAKeyInfo.Q);
-                    //BigInteger phi = (p - 1) * (q - 1);
 
                     /*
 
@@ -247,16 +296,11 @@ namespace RSA__Lab_1_
                     {
                         if (81 * BigInteger.Pow(bigD, 4) < bigN) continue; 
                     }
-                   
 
-                    contin = false;
 
-                    
-
-                    
-
+                    break;
                 }
-            } while (contin);
+            } while (true);
 
             N = bigN.ToString();
             P = bigP.ToString();
@@ -269,7 +313,7 @@ namespace RSA__Lab_1_
         public byte[] CalculateSHA256(byte[] data)
         {
             SHA256 sha256 = SHA256.Create();
-            return sha256.ComputeHash(data); 
+            return sha256.ComputeHash(data);  
         }
         public byte[] CalculateSHA256(string str)
         {            

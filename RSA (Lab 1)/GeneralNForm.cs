@@ -18,17 +18,29 @@ namespace RSA__Lab_1_
             InitializeComponent();
         }
 
-        string filenamePublicA;
-        string filenamePrivateA;
-        string filenamePublicB;
+        string filenamePublicA = "";
+        string filenamePrivateA = "";
+        string filenamePublicB = "";
 
 
         private void buttonCommonNAttack_Click(object sender, EventArgs e)
         {
+            if (filenamePublicA == "" || filenamePublicB == "" || filenamePrivateA == "")
+            {
+                MessageBox.Show("Укажите файлы ключей");
+                return;
+            }
+
             string P, Q, D;
 
             CryptoEnvelope envelope = new CryptoEnvelope();
-            envelope.CommonNAttack(filenamePublicA, filenamePrivateA, filenamePublicB, out P, out Q, out D);
+            bool result = envelope.CommonNAttack(filenamePublicA, filenamePrivateA, filenamePublicB, out P, out Q, out D);
+
+            if (result == false)
+            {
+                MessageBox.Show("Ключи не подходят для данной атаки.");
+                return;
+            }
 
             textBoxCommonNP.Text = P;
             textBoxCommonNQ.Text = Q;
