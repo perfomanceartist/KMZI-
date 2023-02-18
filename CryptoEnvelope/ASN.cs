@@ -536,22 +536,7 @@ namespace RSA__Lab_1_
 
         public static void decodeSignHeader(byte[] data, out RSAPublicKey key, out byte[] hash)
         {
-            /*
-            int headerLen = getLengthInt(data, 1);
-            byte[] headerBytes = new byte[1 + 1 + getMinK(headerLen) + headerLen];
-            Array.Copy(data, headerBytes, headerBytes.Length);
-
-            message = new byte[data.Length - (1 + 1 + getMinK(headerLen) + headerLen)];
-            Array.Copy(
-                data,
-                data.Length - message.Length,
-                message,
-                0,
-                message.Length
-            );
-            */
-
-
+            
             ASNSequence mainSeq = new ASNSequence();
             mainSeq.Decode(data);
 
@@ -648,97 +633,7 @@ namespace RSA__Lab_1_
 
         
 
-/*
-        public static byte[] EncodeData(byte[] RSAKeyN, byte[] RS, byte[] AESKey, byte[] data)
-        {
-            byte[] encoded;
 
-            if (data.Length < 128)
-            {
-                //ТЭГ - ДЛИНА - ДАННЫЕ - ТЕГ - ДЛИНА - ДАННЫЕ
-                encoded = new byte[2 + 32 + 2 + data.Length];
-            }
-            else
-            {
-                //8 - ошибка, нужно быть аккуратнее с этим
-                encoded = new byte[2 + 32 + 2 + getMinK(data.Length) + data.Length];
-            }
-
-
-            encoded[0] = (byte)0x02;
-            encoded[1] = (byte)32;
-            AESKey.CopyTo(encoded, 2);
-
-            encoded[34] = (byte)0x04;
-
-            byte k = 0;
-            if (data.Length < 128)
-            {
-                //ТЭГ - ДЛИНА - ДАННЫЕ - ТЕГ - ДЛИНА - ДАННЫЕ
-                encoded[35] = (byte)data.Length;
-            }
-            else
-            {
-                int l = data.Length;
-                k = getMinK(l);
-                encoded[35] |= 0x80;
-                encoded[35] |= k;
-                for (int i = k; i > 0; i--)
-                {
-                    encoded[i] = (byte)(l & 0xFF);
-                    l >>= 8;
-                }
-            }
-            data.CopyTo(encoded, 36 + k);
-
-            return encoded;
-        }
-
-        public static byte[] Encode(byte[] AESKey, byte[] data)
-        {
-            byte[] encoded;
-
-            if (data.Length < 128)
-            {
-                //ТЭГ - ДЛИНА - ДАННЫЕ - ТЕГ - ДЛИНА - ДАННЫЕ
-                encoded = new byte[2 + 32 + 2 + data.Length];
-            }
-            else
-            {
-                //8 - ошибка, нужно быть аккуратнее с этим
-                encoded = new byte[2 + 32 + 2 + getMinK(data.Length) + data.Length];
-            }
-
-
-            encoded[0] = (byte)0x02;
-            encoded[1] = (byte)32;
-            AESKey.CopyTo(encoded, 2);
-
-            encoded[34] = (byte)0x04;
-
-            byte k = 0;
-            if (data.Length < 128)
-            {
-                //ТЭГ - ДЛИНА - ДАННЫЕ - ТЕГ - ДЛИНА - ДАННЫЕ
-                encoded[35] = (byte)data.Length;
-            }
-            else
-            {
-                int l = data.Length;
-                k = getMinK(l);
-                encoded[35] |= 0x80;
-                encoded[35] |= k;
-                for (int i = k; i > 0; i--)
-                {
-                    encoded[i] = (byte) ( l & 0xFF);
-                    l >>= 8;
-                }                
-            }
-            data.CopyTo(encoded, 36 + k);
-
-            return encoded;
-        }
-*/
 
     }
 }

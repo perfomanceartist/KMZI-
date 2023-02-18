@@ -137,7 +137,7 @@ namespace RSA__Lab_1_
             return new BigInteger(data, true);
         }
 
-        private BigInteger ExtendedEuclide(BigInteger a, BigInteger b)//Принимает E и N
+        internal BigInteger ExtendedEuclide(BigInteger a, BigInteger b)//Принимает E и N
         {
             BigInteger x1 = 0;
             BigInteger x2 = 1;
@@ -165,13 +165,151 @@ namespace RSA__Lab_1_
         } //Расширенный алгоритм Евклида возвращает Х(который в RSA является секретным ключем D)
     
 
+        internal BigInteger Get3Root(BigInteger c)
+        {
+            int lenH = c.ToByteArray().Length;
+            int lenL = lenH - 1;
+
+            int degH = ((8 * lenH) / 3)  + 1;
+            int degL = (8 * (lenH - 1)) / 3;
+
+            BigInteger h = BigInteger.Pow(2, degH);
+            BigInteger l = BigInteger.Pow(2, degL);
+
+            BigInteger ans = 0;
+            while (l <= h)
+            {
+                // Finding the mid value
+
+                BigInteger mid = l + (h - l) / 2;
+                // Checking the mid value
+                if (mid * mid * mid == c)
+                {
+                    return mid;
+                }
+
+                // Shift the lower bound
+                if (mid * mid * mid < c)
+                {
+                    l = mid + 1;
+                    ans = mid;
+                }
+                // Shift the upper bound
+                else
+                {
+                    h = mid - 1;
+                }
+            }
+            return ans;
+        }
+
+        internal BigInteger GetNRoot(BigInteger c, int deg)
+        {
+            int lenH = c.ToByteArray().Length;
+            int lenL = lenH - 1;
+
+            int degH = ((8 * lenH) / deg) + 1;
+            int degL = (8 * (lenH - 1)) / deg;
+
+            BigInteger h = BigInteger.Pow(2, degH);
+            BigInteger l = BigInteger.Pow(2, degL);
+
+            BigInteger ans = 0;
+            while (l <= h)
+            {
+                // Finding the mid value
+                BigInteger mid = l + (h - l) / 2;
+                BigInteger midDeg = BigInteger.Pow(mid, deg);
+
+                // Checking the mid value
+                if (midDeg == c) return mid;
+
+                // Shift the lower bound
+                if (midDeg < c)
+                {
+                    l = mid + 1;
+                    ans = mid;
+                }
+                // Shift the upper bound
+                else h = mid - 1;
+            }
+            return ans;
+        }
+
+
+        public bool CommonEAttack(BigInteger e, List<BigInteger> listN, List<BigInteger> listC, out BigInteger x)
+        {
+            BigInteger M = 1;
+
+            foreach (BigInteger a in listN)
+            {
+                M *= a;
+            }
+
+            List<BigInteger> listM = new List<BigInteger>();
+
+            foreach(BigInteger a in listN)
+            {
+                listM.Add(BigInteger.Divide(M, a));
+            }
+
+            List<BigInteger> listInverseM = new List<BigInteger>();
+
+            for (int i = 0; i < listN.Count; i++)
+            {
+                listInverseM.Add(ExtendedEuclide(listM[i], listN[i]));
+            }
+
+            x = 0;
+            for (int i = 0; i < listN.Count; i++)
+            {
+                BigInteger t = (listC[i] * listM[i] * listInverseM[i]) % M;
+                x = (x + t) % M;
+            }
+
+            int intE = Convert.ToInt32(e.ToByteArray());
+            x = GetNRoot(x, intE);
+            return true;
+        }
+
+        public bool CommonEAttack(List<string> publicKeyFiles, List<string> encryptedFiles, string path)
+        {
+            
+            List<BigInteger> listN = new List<BigInteger>();
+            BigInteger e = RSAPublicKey.ReadFromFile(publicKeyFiles[0]).E;
+            foreach (string keyFile in publicKeyFiles)
+            {
+                listN.Add(RSAPublicKey.ReadFromFile(keyFile).N);                
+            }
+
+            List<BigInteger> encryptedMessages = new List<BigInteger>();
+            foreach (string messageFile in encryptedFiles)
+            {
+                byte[] bytes = File.ReadAllBytes(messageFile);
+                encryptedMessages.Add(new BigInteger(bytes));
+            }
+            BigInteger m;
+            CommonEAttack(e, listN, encryptedMessages, out m);
+            File.WriteAllBytes(path, m.ToByteArray());
+            return true;
+        }
+
+
         public bool CommonNAttack(string filenamePublicA, string filenamePrivateA, string filenamePublicB, out string P, out string Q, out string D)
         {
             //throw new NotImplementedException();
-
-            RSAPublicKey publicA = RSAPublicKey.ReadFromFile(filenamePublicA);
-            RSAPublicKey publicB = RSAPublicKey.ReadFromFile(filenamePublicB);
-            RSAPrivateKey privateA = RSAPrivateKey.ReadFromFile(filenamePrivateA);
+            RSAPublicKey publicA, publicB; RSAPrivateKey privateA;
+            try {
+                publicA = RSAPublicKey.ReadFromFile(filenamePublicA);
+                publicB = RSAPublicKey.ReadFromFile(filenamePublicB);
+                privateA = RSAPrivateKey.ReadFromFile(filenamePrivateA);
+            }
+            catch
+            {
+                P = Q = D = "";
+                return false;
+            }
+            
 
             if (publicA.N != publicB.N || privateA.N != publicA.N) {
                 P = Q = D =  "";
