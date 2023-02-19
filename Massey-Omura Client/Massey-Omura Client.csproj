@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>Massey_Omura_Client</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="CryptoEnvelope">
+      <HintPath>..\CryptoEnvelope\bin\Debug\net6.0\CryptoEnvelope.dll</HintPath>
+    </Reference>
+    <Reference Include="Massey-Omura Lib">
+      <HintPath>..\Massey-Omura Lib\bin\Debug\net6.0\Massey-Omura Lib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

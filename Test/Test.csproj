@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Massey-Omura Lib\Massey-Omura Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Massey-Omura Lib">
+      <HintPath>..\Massey-Omura Lib\bin\Debug\net6.0\Massey-Omura Lib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
