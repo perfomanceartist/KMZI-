@@ -6,31 +6,29 @@ namespace Massey_Omura_Client
 {
     public partial class MainForm : Form
     {
+        private string filename;
+
         public MainForm()
         {
-            InitializeComponent();
-
-            
-        }
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            
+            InitializeComponent();            
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void radioButtonMessage_CheckedChanged(object sender, EventArgs e)
         {
-
+            richTextBox1.Visible = true;
         }
 
         private void radioButtonFile_CheckedChanged(object sender, EventArgs e)
         {
-            
-
+            if (radioButtonFile.Checked)
+            {
+                richTextBox1.Visible = false;
+                if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+                    return;
+                // получаем выбранный файл
+                filename = openFileDialog.FileName;
+            }            
         }
 
         private async void checkBoxListen_CheckedChanged(object sender, EventArgs e)
@@ -63,12 +61,25 @@ namespace Massey_Omura_Client
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            string dataString = richTextBox1.Text;
+            
             string IP = textBoxNewIP.Text;
             string Port = textBoxNewPort.Text;
-
             Client client = new Client(IP, Convert.ToInt32(Port));
-            client.Send(dataString);
+            if (radioButtonFile.Checked)
+            {
+                if (filename == "")
+                {
+                    MessageBox.Show("Выберите файл!");
+                    return;
+                }
+                byte[] data = File.ReadAllBytes(filename);
+                client.Send(data);
+            }
+            else if (radioButtonMessage.Checked)
+            {
+                string dataString = richTextBox1.Text;
+                client.Send(dataString);
+            }
 
             /*Client client = new Client(IP, Port);
             if(!client.Connect())

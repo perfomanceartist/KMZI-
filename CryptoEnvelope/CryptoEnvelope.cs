@@ -390,7 +390,7 @@ namespace RSA__Lab_1_
 
         public void GenerateRSAKeys(int keySize, out string N, out string P, out string Q, out string E, out string D)
         {
-            byte[] byteN, byteP, byteQ, byteD;
+            //byte[] byteN, byteP, byteQ, byteD;
             BigInteger bigN, bigP, bigQ, bigE, bigD, bigPhi;
             do
             {

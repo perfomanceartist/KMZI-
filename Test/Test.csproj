@@ -8,12 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Massey-Omura Lib\Massey-Omura Lib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Reference Include="CryptographyLib">
+      <HintPath>..\CryptographyLib\bin\Debug\net6.0\CryptographyLib.dll</HintPath>
+    </Reference>
     <Reference Include="Massey-Omura Lib">
       <HintPath>..\Massey-Omura Lib\bin\Debug\net6.0\Massey-Omura Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Open.Numeric.Primes">
+      <HintPath>..\..\Open.Numeric.Primes-master\source\bin\Release\net6\Open.Numeric.Primes.dll</HintPath>
     </Reference>
   </ItemGroup>
 

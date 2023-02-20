@@ -13,6 +13,9 @@
     <Reference Include="CryptoEnvelope">
       <HintPath>..\CryptoEnvelope\bin\Debug\net6.0\CryptoEnvelope.dll</HintPath>
     </Reference>
+    <Reference Include="CryptographyLib">
+      <HintPath>..\CryptographyLib\bin\Debug\net6.0\CryptographyLib.dll</HintPath>
+    </Reference>
     <Reference Include="Massey-Omura Lib">
       <HintPath>..\Massey-Omura Lib\bin\Debug\net6.0\Massey-Omura Lib.dll</HintPath>
     </Reference>

@@ -7,6 +7,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using CryptographyLib;
+
 
 namespace Massey_Omura_Client
 {
@@ -19,16 +21,64 @@ namespace Massey_Omura_Client
             tcpListener.Start();
         }
 
+        private byte[] AcceptData(NetworkStream stream, byte[] aesKey)
+        {
+            byte[] data = new byte[1024];
+            int bytesReadTotal = 0;
+            while (true)
+            {
+                int bytesRead = 0;
+                try
+                {
+                    bytesRead = stream.Read(data, bytesReadTotal, 1024);
+                }
+                catch (Exception ex)
+                {
+
+                }
+                
+                bytesReadTotal += bytesRead;
+                if (bytesRead < 1024) break;
+                Array.Resize<byte>(ref data, bytesReadTotal + 1024);
+            }
+            Array.Resize<byte>(ref data, bytesReadTotal);
+            Debug.WriteLine($"Data read ({0} bytes)", bytesReadTotal);
+            return Cryptography.FromAes256(data, aesKey);
+        }
+
+
+        private byte[] AcceptKey(NetworkStream stream)
+        {
+            Massey_Omura m_o = new Massey_Omura();
+
+            byte[] tA = new byte[1024];
+            stream.Read(tA);
+            Debug.WriteLine("tA read");
+
+            byte[] tAB = m_o.getAB(tA);
+            stream.Write(tAB);
+            Debug.WriteLine("tAB sent");
+
+            byte[] tB = new byte[1024];
+            stream.Read(tB);
+            Debug.WriteLine("tB read");
+
+            return m_o.getT(tB);
+
+
+        }
+
         public Message Listen()
         {
             
             using TcpClient client = tcpListener.AcceptTcpClient();
             NetworkStream stream = client.GetStream();
-            byte[] buffer = new byte[1024];
-            stream.Read(buffer);
+            byte[] key = AcceptKey(stream);
+            byte[] data = AcceptData(stream, key);
+
 
             string date = DateTime.UtcNow.ToString();
-            return new Message(client.Client.RemoteEndPoint.ToString(), date, buffer);
+            return new Message(client.Client.RemoteEndPoint.ToString(), date, data);
         }
         ~Server()
         {

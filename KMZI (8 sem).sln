@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA (Lab 1)", "RSA (Lab 1)\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoEnvelope", "CryptoEnvelope\CryptoEnvelope.csproj", "{4657033C-69BB-4AEF-A808-F4394E175834}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Massey-Omura Client", "Massey-Omura Client\Massey-Omura Client.csproj", "{75AFEE6C-3EE6-4015-8DA1-A87C5821DE5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Massey-Omura Client", "Massey-Omura Client\Massey-Omura Client.csproj", "{75AFEE6C-3EE6-4015-8DA1-A87C5821DE5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASN", "ASN\ASN.csproj", "{A0AA1341-9792-4682-9E40-FB774F53178E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Massey-Omura Lib", "Massey-Omura Lib\Massey-Omura Lib.csproj", "{6DAA0596-C83E-4CBE-8F6F-71C154C941F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Massey-Omura Lib", "Massey-Omura Lib\Massey-Omura Lib.csproj", "{6DAA0596-C83E-4CBE-8F6F-71C154C941F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{268E864A-9BD9-4F62-8FD8-E9830C650A16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{268E864A-9BD9-4F62-8FD8-E9830C650A16}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptographyLib", "CryptographyLib\CryptographyLib.csproj", "{240B9517-0683-4C16-BF80-C580CF873871}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{75AFEE6C-3EE6-4015-8DA1-A87C5821DE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AFEE6C-3EE6-4015-8DA1-A87C5821DE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75AFEE6C-3EE6-4015-8DA1-A87C5821DE5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0AA1341-9792-4682-9E40-FB774F53178E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0AA1341-9792-4682-9E40-FB774F53178E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0AA1341-9792-4682-9E40-FB774F53178E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0AA1341-9792-4682-9E40-FB774F53178E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DAA0596-C83E-4CBE-8F6F-71C154C941F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DAA0596-C83E-4CBE-8F6F-71C154C941F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DAA0596-C83E-4CBE-8F6F-71C154C941F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{268E864A-9BD9-4F62-8FD8-E9830C650A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{268E864A-9BD9-4F62-8FD8-E9830C650A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{268E864A-9BD9-4F62-8FD8-E9830C650A16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{240B9517-0683-4C16-BF80-C580CF873871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240B9517-0683-4C16-BF80-C580CF873871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240B9517-0683-4C16-BF80-C580CF873871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240B9517-0683-4C16-BF80-C580CF873871}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
