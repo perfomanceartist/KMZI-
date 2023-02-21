@@ -13,7 +13,7 @@ namespace Massey_Omura_Client
             InitializeComponent();            
         }
 
-
+/*
         private void radioButtonMessage_CheckedChanged(object sender, EventArgs e)
         {
             richTextBox1.Visible = true;
@@ -29,7 +29,7 @@ namespace Massey_Omura_Client
                 // получаем выбранный файл
                 filename = openFileDialog.FileName;
             }            
-        }
+        }*/
 
         private async void checkBoxListen_CheckedChanged(object sender, EventArgs e)
         {
@@ -65,7 +65,7 @@ namespace Massey_Omura_Client
             string IP = textBoxNewIP.Text;
             string Port = textBoxNewPort.Text;
             Client client = new Client(IP, Convert.ToInt32(Port));
-            if (radioButtonFile.Checked)
+            /*if (radioButtonFile.Checked)
             {
                 if (filename == "")
                 {
@@ -77,9 +77,12 @@ namespace Massey_Omura_Client
             }
             else if (radioButtonMessage.Checked)
             {
-                string dataString = richTextBox1.Text;
-                client.Send(dataString);
-            }
+                
+            }*/
+
+            string dataString = richTextBox1.Text;
+            client.Send(dataString);
+
 
             /*Client client = new Client(IP, Port);
             if(!client.Connect())

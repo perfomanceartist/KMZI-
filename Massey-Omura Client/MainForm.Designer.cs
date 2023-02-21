@@ -40,8 +40,6 @@
             this.labelInboxIP = new System.Windows.Forms.Label();
             this.tabPageNew = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.radioButtonMessage = new System.Windows.Forms.RadioButton();
-            this.radioButtonFile = new System.Windows.Forms.RadioButton();
             this.groupBoxNewParams = new System.Windows.Forms.GroupBox();
             this.buttonSend = new System.Windows.Forms.Button();
             this.textBoxNewPort = new System.Windows.Forms.TextBox();
@@ -150,8 +148,6 @@
             // tabPageNew
             // 
             this.tabPageNew.Controls.Add(this.richTextBox1);
-            this.tabPageNew.Controls.Add(this.radioButtonMessage);
-            this.tabPageNew.Controls.Add(this.radioButtonFile);
             this.tabPageNew.Controls.Add(this.groupBoxNewParams);
             this.tabPageNew.Location = new System.Drawing.Point(4, 24);
             this.tabPageNew.Name = "tabPageNew";
@@ -163,35 +159,11 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(6, 112);
+            this.richTextBox1.Location = new System.Drawing.Point(6, 87);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(254, 268);
+            this.richTextBox1.Size = new System.Drawing.Size(254, 293);
             this.richTextBox1.TabIndex = 7;
             this.richTextBox1.Text = "";
-            // 
-            // radioButtonMessage
-            // 
-            this.radioButtonMessage.AutoSize = true;
-            this.radioButtonMessage.Checked = true;
-            this.radioButtonMessage.Location = new System.Drawing.Point(12, 87);
-            this.radioButtonMessage.Name = "radioButtonMessage";
-            this.radioButtonMessage.Size = new System.Drawing.Size(91, 19);
-            this.radioButtonMessage.TabIndex = 5;
-            this.radioButtonMessage.TabStop = true;
-            this.radioButtonMessage.Text = "Сообщение";
-            this.radioButtonMessage.UseVisualStyleBackColor = true;
-            this.radioButtonMessage.CheckedChanged += new System.EventHandler(this.radioButtonMessage_CheckedChanged);
-            // 
-            // radioButtonFile
-            // 
-            this.radioButtonFile.AutoSize = true;
-            this.radioButtonFile.Location = new System.Drawing.Point(151, 87);
-            this.radioButtonFile.Name = "radioButtonFile";
-            this.radioButtonFile.Size = new System.Drawing.Size(54, 19);
-            this.radioButtonFile.TabIndex = 4;
-            this.radioButtonFile.Text = "Файл";
-            this.radioButtonFile.UseVisualStyleBackColor = true;
-            this.radioButtonFile.CheckedChanged += new System.EventHandler(this.radioButtonFile_CheckedChanged);
             // 
             // groupBoxNewParams
             // 
@@ -269,7 +241,6 @@
             this.groupBoxInboxParams.ResumeLayout(false);
             this.groupBoxInboxParams.PerformLayout();
             this.tabPageNew.ResumeLayout(false);
-            this.tabPageNew.PerformLayout();
             this.groupBoxNewParams.ResumeLayout(false);
             this.groupBoxNewParams.PerformLayout();
             this.ResumeLayout(false);
@@ -287,8 +258,6 @@
         private CheckBox checkBoxListen;
         private Label labelInboxPort;
         private Label labelInboxIP;
-        private RadioButton radioButtonMessage;
-        private RadioButton radioButtonFile;
         private GroupBox groupBoxNewParams;
         private Button buttonSend;
         private TextBox textBoxNewPort;
