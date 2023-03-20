@@ -209,7 +209,7 @@ namespace CryptographyLib
         /// <summary>
         /// lengthBytes в байтах
         /// </summary>
-        internal static BigInteger getRandomBigInteger(int lengthBytes)
+        public static BigInteger getRandomBigInteger(int lengthBytes)
         {
             Random random = new Random();
             byte[] data = new byte[lengthBytes];
@@ -219,6 +219,7 @@ namespace CryptographyLib
 
         internal static BigInteger getInverse(BigInteger a, BigInteger mod)//Принимает E и N
         {
+            if (a <= 0) a += mod;
             BigInteger x1 = 0;
             BigInteger x2 = 1;
             BigInteger y1 = 1;
@@ -331,7 +332,16 @@ namespace CryptographyLib
         }
 
 
-
+        public static byte[] CalculateSHA256(byte[] data)
+        {
+            SHA256 sha256 = SHA256.Create();
+            return sha256.ComputeHash(data);
+        }
+        public static byte[] CalculateSHA256(string str)
+        {
+            UTF8Encoding objUtf8 = new UTF8Encoding();
+            return CalculateSHA256(objUtf8.GetBytes(str));
+        }
 
 
     }

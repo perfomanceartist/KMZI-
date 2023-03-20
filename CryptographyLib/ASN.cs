@@ -140,6 +140,15 @@ namespace CryptographyLib
                     value[2] = 0x02;
                     value[3] = 0x00;
                 }
+                else if (algName == "GOST")
+                {
+                    length = 4;
+                    value = new byte[4];
+                    value[0] = 0x80;
+                    value[1] = 0x06;
+                    value[2] = 0x07;
+                    value[3] = 0x00;
+                } 
             }
 
             public override void Decode(byte[] data)
@@ -153,6 +162,11 @@ namespace CryptographyLib
                         data[1] == 0x07 &&
                         data[2] == 0x02 &&
                         data[3] == 0x00) algName = "Massey-Omura";
+                    
+                    if (data[0] == 0x80 &&
+                        data[1] == 0x06 &&
+                        data[2] == 0x07 &&
+                        data[3] == 0x00) algName = "GOST";
                 }
             }
 
@@ -808,7 +822,110 @@ namespace CryptographyLib
         }
 
 
+        public class GOST
+        {
+            public static byte[] Encode(EllipticCurvePoint Q, BigInteger r, BigInteger s)
+            {
+                ASNSequence mainSeq = new ASNSequence();
 
+                ASNSet set = new ASNSet(); //TODO
+                ASNSequence keySeq = new ASNSequence();
+                ASNOctetString algID = new ASNOctetString("GOST");
+
+                ASNSequence openKeySeq = new ASNSequence(); //значение открытого ключа, не используется
+                ASNInteger Qx = new ASNInteger(Q.x.ToByteArray());
+                ASNInteger Qy = new ASNInteger(Q.y.ToByteArray());
+                openKeySeq.Add(Qx); openKeySeq.Add(Qy);
+
+                ASNSequence algParams = new ASNSequence();
+
+                ASNSequence primeSeq = new ASNSequence();
+                ASNInteger asnPrime = new ASNInteger(Q.curve.p.ToByteArray());
+                primeSeq.Add(asnPrime);
+
+                ASNSequence curveSeq = new ASNSequence();
+                ASNInteger asnA = new ASNInteger(Q.curve.A.ToByteArray());
+                ASNInteger asnB = new ASNInteger(Q.curve.B.ToByteArray());
+                curveSeq.Add(asnA); curveSeq.Add(asnB);
+
+                ASNSequence PSeq = new ASNSequence();
+                ASNInteger PSeqX = new ASNInteger(Q.curve.xP.ToByteArray());
+                ASNInteger PSeqY = new ASNInteger(Q.curve.yP.ToByteArray());
+                PSeq.Add(PSeqX); PSeq.Add(PSeqY);
+
+                ASNInteger asnQ = new ASNInteger(Q.curve.q.ToByteArray());
+
+                algParams.Add(primeSeq);
+                algParams.Add(curveSeq);
+                algParams.Add(PSeq);
+                algParams.Add(asnQ);
+
+
+
+
+                ASNSequence signSeq = new ASNSequence();
+                ASNInteger asnR = new ASNInteger(r.ToByteArray());
+                ASNInteger asnS = new ASNInteger(s.ToByteArray());
+                signSeq.Add(asnR); signSeq.Add(asnS);
+
+
+                keySeq.Add(algID);
+                keySeq.Add(openKeySeq);
+                keySeq.Add(algParams);
+                keySeq.Add(signSeq);
+
+                set.Add(keySeq);
+                mainSeq.Add(set);
+
+                ASNSequence additionalSeq = new ASNSequence();
+                mainSeq.Add(additionalSeq);
+
+                return mainSeq.Encode();
+            }
+
+
+            public static void Decode(byte[] data, out EllipticCurvePoint Q, out BigInteger r, out BigInteger s)
+            {
+                ASNSequence mainSeq = new ASNSequence();
+                mainSeq.Decode(data);
+
+                ASNSet set = (ASNSet)mainSeq.elements[0];
+                ASNSequence keySeq = (ASNSequence)set.elements[0];
+                ASNSequence openKeySeq = (ASNSequence)keySeq.elements[1];
+                ASNSequence algParams = (ASNSequence)keySeq.elements[2];
+                ASNSequence signSeq = (ASNSequence)keySeq.elements[3];
+
+                ASNSequence primeSeq = (ASNSequence)algParams.elements[0];
+                BigInteger p = ((ASNInteger)primeSeq.elements[0]).GetBigInteger();
+
+                ASNSequence coeffSeq = (ASNSequence)algParams.elements[1];
+                BigInteger A = ((ASNInteger)coeffSeq.elements[0]).GetBigInteger();
+                BigInteger B = ((ASNInteger)coeffSeq.elements[1]).GetBigInteger();
+
+                ASNSequence PSeq = (ASNSequence)algParams.elements[2];
+                BigInteger xP = ((ASNInteger)PSeq.elements[0]).GetBigInteger();
+                BigInteger yP = ((ASNInteger)PSeq.elements[1]).GetBigInteger();
+
+                BigInteger q = ((ASNInteger)algParams.elements[3]).GetBigInteger();
+
+
+                EllipticCurve curve = new EllipticCurve();
+                curve.p = p;
+                curve.q = q;
+                curve.A = A;
+                curve.B = B;
+                curve.xP = xP;
+                curve.yP = yP;
+
+                Q = new EllipticCurvePoint(
+                    ((ASNInteger)openKeySeq.elements[0]).GetBigInteger(),
+                    ((ASNInteger)openKeySeq.elements[1]).GetBigInteger(),
+                    curve);
+
+                r = ((ASNInteger)signSeq.elements[0]).GetBigInteger();
+                s = ((ASNInteger)signSeq.elements[1]).GetBigInteger();
+            }
+        }
 
 
     }

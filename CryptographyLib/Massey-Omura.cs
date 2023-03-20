@@ -36,6 +36,8 @@ namespace CryptographyLib
             {
                 Cryptography.GeneratePrime(keySize, out p);
             } while (p < BigInteger.Pow(2, 256));
+            //В практических реализациях для a и b используются числа порядка 10^100 и p порядка 10^300.
+            //Соответственно, ключ будет порядка 10^300 или 2^1000.
             r = p - 1;
         }
 
@@ -51,7 +53,8 @@ namespace CryptographyLib
             bool check = (a * inverseA) % r == 1;
             BigInteger t = new BigInteger(key, true);
             BigInteger tA = BigInteger.ModPow(t, a, p);
-            
+            Debug.WriteLine("p (modulo):" + p.ToString());
+            Debug.WriteLine("r (Порядок группы):" + r.ToString());
             Debug.WriteLine("t (key):" + t.ToString());
             Debug.WriteLine("a:" + a.ToString());
             Debug.WriteLine("tA:" + tA.ToString());
