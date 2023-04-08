@@ -11,9 +11,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RSA__Lab_1_
 {
-    public partial class GeneralNForm : Form
+    public partial class CommonNForm : Form
     {
-        public GeneralNForm()
+        public CommonNForm()
         {
             InitializeComponent();
         }

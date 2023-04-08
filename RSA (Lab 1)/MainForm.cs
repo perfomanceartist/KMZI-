@@ -301,7 +301,7 @@ namespace RSA__Lab_1_
 
         private void ключиСОбщимМодулемToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GeneralNForm form = new();
+            CommonNForm form = new();
             form.Show();
         }
 
@@ -313,7 +313,7 @@ namespace RSA__Lab_1_
 
         private void малыйОбщийПоказательToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GeneralEForm form = new();
+            CommonEForm form = new();
             form.Show();
         }
     }

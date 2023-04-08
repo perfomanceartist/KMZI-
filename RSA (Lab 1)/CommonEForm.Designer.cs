@@ -1,6 +1,6 @@
 ﻿namespace RSA__Lab_1_
 {
-    partial class GeneralEForm
+    partial class CommonEForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GeneralEForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommonEForm));
             this.SuspendLayout();
             // 
             // GeneralEForm

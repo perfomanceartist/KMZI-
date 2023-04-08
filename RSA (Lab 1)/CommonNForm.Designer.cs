@@ -1,6 +1,6 @@
 ﻿namespace RSA__Lab_1_
 {
-    partial class GeneralNForm
+    partial class CommonNForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GeneralNForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommonNForm));
             this.labelCommonNPublicA = new System.Windows.Forms.Label();
             this.labelCommonNPrivateA = new System.Windows.Forms.Label();
             this.labelCommonNPublicB = new System.Windows.Forms.Label();

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace RSA__Lab_1_
 {
-    public partial class GeneralEForm : Form
+    public partial class CommonEForm : Form
     {
-        public GeneralEForm()
+        public CommonEForm()
         {
             InitializeComponent();
         }
