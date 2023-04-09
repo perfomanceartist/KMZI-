@@ -33,8 +33,7 @@ namespace RSA__Lab_1_
 
             string P, Q, D;
 
-            CryptoEnvelope envelope = new CryptoEnvelope();
-            bool result = envelope.CommonNAttack(filenamePublicA, filenamePrivateA, filenamePublicB, out P, out Q, out D);
+            bool result = CryptographyLib.RSA.CommonNAttack(filenamePublicA, filenamePrivateA, filenamePublicB, out P, out Q, out D);
 
             if (result == false)
             {
@@ -57,8 +56,7 @@ namespace RSA__Lab_1_
             saveFileDialog.Title = "Закрытый ключ жертвы";
             if (saveFileDialog.ShowDialog() == DialogResult.Cancel) return;
             string path = saveFileDialog.FileName;
-            CryptoEnvelope envelope = new CryptoEnvelope();
-            envelope.ExportPrivateKey(path, P, Q, D);
+            CryptographyLib.RSA.ExportPrivateKey(path, P, Q, D);
         }
 
         private void buttonCommonNPublicA_Click(object sender, EventArgs e)

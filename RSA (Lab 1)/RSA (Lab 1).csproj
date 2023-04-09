@@ -16,11 +16,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CryptoEnvelope\CryptoEnvelope.csproj" />
+    <ProjectReference Include="..\CryptographyLib\CryptographyLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="CryptoEnvelope">
       <HintPath>..\CryptoEnvelope\bin\Debug\net6.0\CryptoEnvelope.dll</HintPath>
+    </Reference>
+    <Reference Include="CryptographyLib">
+      <HintPath>..\CryptographyLib\bin\Debug\net6.0\CryptographyLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

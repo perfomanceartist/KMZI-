@@ -10,89 +10,109 @@ using System.Threading.Tasks;
 namespace CryptographyLib
 {
     
-
-    internal class RSAPublicKey
-    {
-
-
-        public BigInteger E;
-
-        public BigInteger N;
-
-        public RSAPublicKey(BigInteger e, BigInteger n)
-        {
-            E = e;
-            N = n;
-        }
-
-        public static RSAPublicKey ReadFromFile(string filename)
-        {
-            string data = File.ReadAllText(filename);
-
-            data = data.Substring("-----BEGIN PUBLIC KEY-----".Length);
-
-            data = data.Trim();
-
-            data = data.Substring(0, data.Length - "-----END PUBLIC KEY-----".Length);
-
-            data = data.TrimEnd();
-
-            byte[] dataBytes = Convert.FromBase64String(data);
-
-            return ASN.DecodeRSAPublicKey(dataBytes);
-        }
-
-        public static void WriteToFile(RSAPublicKey key, string filename)
-        {
-            string data = "-----BEGIN PUBLIC KEY-----" + Environment.NewLine;
-            data += Convert.ToBase64String(ASN.EncodeRSAPublicKey(key)) + Environment.NewLine;
-            data += "-----END PUBLIC KEY-----" + Environment.NewLine;
-            File.WriteAllText(filename, data);
-        }
-
-
-    }
-    internal class RSAPrivateKey
-    {
-
-
-        public BigInteger N;
-
-        public BigInteger D;
-
-        public RSAPrivateKey(BigInteger n, BigInteger d)
-        {
-            N = n;
-            D = d;
-        }
-
-        static public RSAPrivateKey ReadFromFile(string filename)
-        {
-            string data = File.ReadAllText(filename);
-
-            data = data.Substring("-----BEGIN PRIVATE KEY-----".Length);
-            data = data.Trim();
-
-            data = data.Substring(0, data.Length - "-----END PRIVATE KEY-----".Length);
-            data = data.TrimEnd();
-            byte[] dataBytes = Convert.FromBase64String(data);
-
-            return ASN.DecodeRSAPrivateKey(dataBytes);
-        }
-
-        static public void WriteToFile(RSAPrivateKey key, string filename)
-        {
-            string data = "-----BEGIN PRIVATE KEY-----" + Environment.NewLine;
-            data += Convert.ToBase64String(ASN.EncodeRSAPrivateKey(key)) + Environment.NewLine;
-            data += "-----END PRIVATE KEY-----" + Environment.NewLine;
-            File.WriteAllText(filename, data);
-        }
-
-
-    }
-
     public class Cryptography
     {
+        public static BigInteger ExtendedEuclide(BigInteger a, BigInteger b)//Принимает E и N
+        {
+            BigInteger x1 = 0;
+            BigInteger x2 = 1;
+            BigInteger y1 = 1;
+            BigInteger y2 = 0;
+            BigInteger B = b;
+            while (b > 0)
+            {
+                BigInteger q = a / b;
+                BigInteger r = a - q * b;
+                BigInteger x = x = x2 - q * x1;
+                BigInteger y = y2 - q * y1;
+                a = b;
+                b = r;
+                x2 = x1;
+                x1 = x;
+                y2 = y1;
+                y1 = y;
+            }
+            if (x2 < 0)
+            {
+                x2 += B;
+            }
+            return x2;
+        } //Расширенный алгоритм Евклида возвращает Х(который в RSA является секретным ключем D)
+
+
+        public static BigInteger Get3Root(BigInteger c)
+        {
+            int lenH = c.ToByteArray().Length;
+            int lenL = lenH - 1;
+
+            int degH = ((8 * lenH) / 3) + 1;
+            int degL = (8 * (lenH - 1)) / 3;
+
+            BigInteger h = BigInteger.Pow(2, degH);
+            BigInteger l = BigInteger.Pow(2, degL);
+
+            BigInteger ans = 0;
+            while (l <= h)
+            {
+                // Finding the mid value
+
+                BigInteger mid = l + (h - l) / 2;
+                // Checking the mid value
+                if (mid * mid * mid == c)
+                {
+                    return mid;
+                }
+
+                // Shift the lower bound
+                if (mid * mid * mid < c)
+                {
+                    l = mid + 1;
+                    ans = mid;
+                }
+                // Shift the upper bound
+                else
+                {
+                    h = mid - 1;
+                }
+            }
+            return ans;
+        }
+
+        public static BigInteger GetNRoot(BigInteger c, int deg)
+        {
+            int lenH = c.ToByteArray().Length;
+            int lenL = lenH - 1;
+
+            int degH = ((8 * lenH) / deg) + 1;
+            int degL = (8 * (lenH - 1)) / deg;
+
+            BigInteger h = BigInteger.Pow(2, degH);
+            BigInteger l = BigInteger.Pow(2, degL);
+
+            BigInteger ans = 0;
+            while (l <= h)
+            {
+                // Finding the mid value
+                BigInteger mid = l + (h - l) / 2;
+                BigInteger midDeg = BigInteger.Pow(mid, deg);
+
+                // Checking the mid value
+                if (midDeg == c) return mid;
+
+                // Shift the lower bound
+                if (midDeg < c)
+                {
+                    l = mid + 1;
+                    ans = mid;
+                }
+                // Shift the upper bound
+                else h = mid - 1;
+            }
+            return ans;
+        }
+
+
+
         public static byte[] ToAes256(byte[] src, byte[] AESKey)
         {
 
@@ -210,6 +230,13 @@ namespace CryptographyLib
         /// lengthBytes в байтах
         /// </summary>
         public static BigInteger getRandomBigInteger(int lengthBytes)
+        {
+            Random random = new Random();
+            byte[] data = new byte[lengthBytes];
+            random.NextBytes(data);
+            return new BigInteger(data, true);
+        }
+        public static BigInteger getRandomBigInteger(long lengthBytes)
         {
             Random random = new Random();
             byte[] data = new byte[lengthBytes];

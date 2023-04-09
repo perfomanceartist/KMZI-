@@ -38,19 +38,18 @@ namespace RSA__Lab_1_
             }
 
             string N, P, Q, E, D;
-            CryptoEnvelope envelope = new CryptoEnvelope();
 
             if (checkBoxFixN.Checked)
             {
                 N = textBoxN.Text; // Всегда подходящее число, т.к. нельзя ввести вручную
                 P = textBoxP.Text;
                 Q = textBoxQ.Text;
-                envelope.GenerateRSAKeys(P, Q, out E, out D);
+                CryptographyLib.RSA.GenerateRSAKeys(P, Q, out E, out D);
                 textBoxE.Text = E;
                 textBoxD.Text = D;
             }
             else {
-                envelope.GenerateRSAKeys(keySize, out N, out P, out Q, out E, out D);
+                CryptographyLib.RSA.GenerateRSAKeys(keySize, out N, out P, out Q, out E, out D);
                 textBoxN.Text = N;
                 textBoxP.Text = P;
                 textBoxQ.Text = Q;
@@ -80,10 +79,11 @@ namespace RSA__Lab_1_
             string D = textBoxD.Text;
 
             saveFileDialogKey.Title = "Открытый ключ";
+            saveFileDialogKey.Filter = "Файлы ключей (*.pam)|*.pam";
             if (saveFileDialogKey.ShowDialog() == DialogResult.Cancel) return;
             string path = saveFileDialogKey.FileName;
-            CryptoEnvelope envelope = new CryptoEnvelope();
-            envelope.ExportPublicKey(path, N, E);
+
+            CryptographyLib.RSA.ExportPublicKey(path, N, E);
         }
 
         private void buttonExportPrivateKey_Click(object sender, EventArgs e)
@@ -93,10 +93,11 @@ namespace RSA__Lab_1_
             string D = textBoxD.Text;
 
             saveFileDialogKey.Title = "Закрытый ключ";
+            saveFileDialogKey.Filter = "Файлы ключей (*.pam)|*.pam";
             if (saveFileDialogKey.ShowDialog() == DialogResult.Cancel) return;
             string path = saveFileDialogKey.FileName;
-            CryptoEnvelope envelope = new CryptoEnvelope();
-            envelope.ExportPrivateKey(path, N, D);
+
+            CryptographyLib.RSA.ExportPrivateKey(path, N, D);
         }
 
         private void textBoxKeyLength_TextChanged(object sender, EventArgs e)

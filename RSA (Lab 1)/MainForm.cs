@@ -1,3 +1,4 @@
+using CryptographyLib;
 using System;
 using System.Formats.Asn1;
 using System.IO;
@@ -5,17 +6,15 @@ using System.Net;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Windows.Forms;
-using static RSA__Lab_1_.CryptoEnvelope;
 
 namespace RSA__Lab_1_
 {
     public partial class MainForm : Form
     {
-        private CryptoEnvelope envelope;
+        
         public MainForm()
         {
             InitializeComponent();
-            envelope = new CryptoEnvelope();
             
         }
 
@@ -123,7 +122,7 @@ namespace RSA__Lab_1_
             }
 
 
-            byte[] encryptedBytes = envelope.EncryptFile(
+            byte[] encryptedBytes = CryptographyLib.RSA.EncryptFile(
                 encryptRSAPublicKeyFilename, AESKeyFilename, encryptMessageFilename);
             File.WriteAllBytes(encryptedFilename, encryptedBytes);
 
@@ -177,7 +176,7 @@ namespace RSA__Lab_1_
             if (saveFileDialog.ShowDialog() == DialogResult.Cancel) return;
             string decryptedFilename = saveFileDialog.FileName;
 
-            byte[] decryptedBytes = envelope.DecryptFile(decryptRSAPrivateKeyFilename, decryptMessageFilename);
+            byte[] decryptedBytes = CryptographyLib.RSA.DecryptFile(decryptRSAPrivateKeyFilename, decryptMessageFilename);
             File.WriteAllBytes(decryptedFilename, decryptedBytes);
         }
 
@@ -244,7 +243,7 @@ namespace RSA__Lab_1_
             if (saveFileDialog.ShowDialog() == DialogResult.Cancel) return;
             string signmentFilename = saveFileDialog.FileName;
 
-            envelope.Sign(signRSAPublicKeyFilename, signRSAPrivateKeyFilename, signMessageFilename, signmentFilename);
+            CryptographyLib.RSA.RSASign(signRSAPublicKeyFilename, signRSAPrivateKeyFilename, signMessageFilename, signmentFilename);
         }
 
         private void buttonMessageVerify_Click(object sender, EventArgs e)
@@ -287,7 +286,7 @@ namespace RSA__Lab_1_
 
         private void buttonVerify_Click(object sender, EventArgs e)
         {
-            bool result = envelope.Verify(verifyMessageFilename, verifySignmentFilename);
+            bool result = CryptographyLib.RSA.RSAVerify(verifyMessageFilename, verifySignmentFilename);
             string text = result ? "Подпись верна!" : "ОШИБКА! Подпись не подходит!";
             string caption = "Проверка подписи";
             MessageBox.Show(text, caption);

@@ -4,6 +4,69 @@ using System.IO;
 using System.Numerics;
 
 
+BigInteger[] getContinuedFraction(BigInteger b, BigInteger a, int limit, out int size)
+{
+    BigInteger[] coeffs = new BigInteger[limit];
+
+    for (size = 0; size < limit; size++)
+    {
+        BigInteger div = BigInteger.Divide(b, a);
+        coeffs[size] = div;
+        BigInteger t = a;
+        BigInteger.DivRem(b, a, out a); //остаток  a = b - div * a;
+        b = t;
+        if (a == 0) break;
+    }
+    return coeffs;
+}
+
+
+BigInteger WienerAttack(BigInteger n, BigInteger e)
+{
+    int limit = 32; int size;
+    BigInteger[] coeffs = getContinuedFraction(n, e, limit, out size);
+
+    /*foreach (BigInteger coefficient in coeffs)
+    {
+        Console.WriteLine(coefficient.ToString());
+    }*/
+
+    BigInteger qi;
+    //BigInteger pi2 = 1, pi1 = 0;
+    BigInteger qi2 = 0, qi1 = 1;
+
+    int lenNBytes = 32;
+
+    for (int i = 0; i < limit; i++)
+    {
+        qi = coeffs[i] * qi1 + qi2;
+
+        BigInteger m = Cryptography.getRandomBigInteger(lenNBytes) % n;
+
+        if (BigInteger.ModPow(m, e * qi, n) == m) return qi;
+
+        qi2 = qi1;
+        qi1 = qi;
+    }
+
+    return 0;
+}
+
+BigInteger n = 1220275921, e = 1073780833;
+Console.WriteLine(WienerAttack(n, e));
+n = 2796304957;
+e = 1779399043;
+Console.WriteLine(WienerAttack(n, e));
+
+
+
+
+
+
+
+
+
+return;
 
 BigInteger p1 = BigInteger.Parse("28383634463013533931739356077");
 // t = 19380265085840254491285433902460268744611336351034722096408992562558754544593
