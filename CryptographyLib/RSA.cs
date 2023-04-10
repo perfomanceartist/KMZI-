@@ -183,8 +183,9 @@ namespace CryptographyLib
                 x = (x + t) % M;
             }
 
-            int intE = Convert.ToInt32(e.ToByteArray());
-            x = Cryptography.GetNRoot(x, intE);
+            //int intE = Convert.ToInt32(e.ToByteArray());
+            x = Cryptography.Get3Root(x);
+           // x = Cryptography.GetNRoot(x, intE);
             return true;
         }
 
@@ -198,15 +199,25 @@ namespace CryptographyLib
                 listN.Add(RSAPublicKey.ReadFromFile(keyFile).N);
             }
 
-            List<BigInteger> encryptedMessages = new List<BigInteger>();
+            List<byte[]> encryptedMessages = new List<byte[]>();
+            List<BigInteger> aesKeys = new List<BigInteger>();
             foreach (string messageFile in encryptedFiles)
             {
                 byte[] bytes = File.ReadAllBytes(messageFile);
-                encryptedMessages.Add(new BigInteger(bytes));
+                RSAPublicKey key;
+                byte[] aesKey;
+                byte[] message;
+                ASN.decodeEncryptionHeader(bytes, out key, out aesKey, out message);
+                aesKeys.Add(new BigInteger(aesKey));
+                encryptedMessages.Add(message);
             }
-            BigInteger m;
-            CommonEAttack(e, listN, encryptedMessages, out m);
-            File.WriteAllBytes(path, m.ToByteArray());
+            BigInteger origKey;
+            CommonEAttack(e, listN, aesKeys, out origKey);
+
+            byte[] encMsg = encryptedMessages[0];
+            byte[] origMsg = Cryptography.FromAes256(encMsg, origKey.ToByteArray());
+
+            File.WriteAllBytes(path, origMsg);
             return true;
         }
 
@@ -286,6 +297,32 @@ namespace CryptographyLib
         }
 
 
+        public static bool checkKey(BigInteger P, BigInteger Q, BigInteger E, BigInteger D, bool wienerCheck = true)
+        {
+           
+            BigInteger N = P * Q;
+            BigInteger phi = (P - 1) * (Q - 1);
+
+            if ((E * D) % phi != 1) return false;
+
+            BigInteger m = Cryptography.getRandomBigInteger(16);
+            BigInteger c = BigInteger.ModPow(m, E, N);
+            if (BigInteger.ModPow(c, D, N) != m) return false;
+
+            if (wienerCheck)
+            {
+                BigInteger min = P < Q ? P : Q;
+                BigInteger max = P > Q ? P : Q;
+
+                if (min < 2 * max) // Атака Винера
+                {
+                    if (81 * BigInteger.Pow(D, 4) < N) return false;
+                }
+            }
+            
+            return true;
+        }
+
         public static void GenerateRSAKeys(string P, string Q, out string E, out string D)
         {
 
@@ -306,56 +343,20 @@ namespace CryptographyLib
             D = d.ToString();
         }
 
-        public static void GenerateRSAKeys(int keySize, out string N, out string P, out string Q, out string E, out string D)
+        public static void GenerateRSAKeys(int keySize, out string N, out string P, out string Q, out string E, out string D, bool wienerCheck = true)
         {
-            //byte[] byteN, byteP, byteQ, byteD;
             BigInteger bigN, bigP, bigQ, bigE, bigD, bigPhi;
+
             do
             {
-                using (RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(keySize))
-                {
-                    RSAParameters RSAKeyInfo = RSA.ExportParameters(true);
+                Cryptography.GeneratePrimePair(keySize, out bigP, out bigQ);
+                bigN = bigP * bigQ;
+                bigPhi = (bigP - 1) * (bigQ - 1);
+                bigE = 65537;
+                bigD = Cryptography.ExtendedEuclide(bigE, bigPhi);
 
-                    /*
-
-                    
-                    byteN = new byte[RSAKeyInfo.Modulus.Length];
-                    byteP = new byte[RSAKeyInfo.P.Length];
-                    byteQ = new byte[RSAKeyInfo.Q.Length];
-                    byteD = new byte[RSAKeyInfo.D.Length];
-                    RSAKeyInfo.Modulus.CopyTo(byteN, 0);
-                    RSAKeyInfo.P.CopyTo(byteP, 0);
-                    RSAKeyInfo.Q.CopyTo(byteQ, 0);
-                    RSAKeyInfo.D.CopyTo(byteD, 0);
-                    Array.Reverse(byteN);
-                    Array.Reverse(byteP);
-                    Array.Reverse(byteQ);
-                    Array.Reverse(byteD);
-
-                    */
-                    bigN = new BigInteger(RSAKeyInfo.Modulus, true, true);
-                    bigP = new BigInteger(RSAKeyInfo.P, true, true);
-                    bigQ = new BigInteger(RSAKeyInfo.Q, true, true);
-                    bigE = new BigInteger(RSAKeyInfo.Exponent, true, true);
-                    bigD = new BigInteger(RSAKeyInfo.D, true, true);
-                    bigPhi = (bigP - 1) * (bigQ - 1);
-
-
-                    bool checkPhi = (((bigE * bigD) % bigPhi) == 1);
-                    bool checkN = (bigN == bigP * bigQ);
-
-
-                    BigInteger min = bigP < bigQ ? bigP : bigQ;
-                    BigInteger max = bigP > bigQ ? bigP : bigQ;
-
-                    if (min < 2 * max) // Атака Винера
-                    {
-                        if (81 * BigInteger.Pow(bigD, 4) < bigN) continue;
-                    }
-
-
-                    break;
-                }
+                if (checkKey(bigP, bigQ, bigE, bigD, wienerCheck) == false) continue;
+                break;
             } while (true);
 
             N = bigN.ToString();
@@ -363,9 +364,34 @@ namespace CryptographyLib
             Q = bigQ.ToString();
             E = bigE.ToString();
             D = bigD.ToString();
-
         }
 
+
+        public static void GenerateRSAKeys(int keySize, string E, out string N, out string P, out string Q, out string D, bool wienerCheck = true)
+        {
+            BigInteger bigN, bigP, bigQ, bigE, bigD, bigPhi;
+
+            bigE = BigInteger.Parse(E);
+            do
+            {
+                Cryptography.GeneratePrimePair(keySize, out bigP, out bigQ);
+                bigN = bigP * bigQ;
+                bigPhi = (bigP - 1) * (bigQ - 1);
+                
+                bigD = Cryptography.ExtendedEuclide(bigE, bigPhi);
+
+                BigInteger min = bigP < bigQ ? bigP : bigQ;
+                BigInteger max = bigP > bigQ ? bigP : bigQ;
+
+                if (checkKey(bigP, bigQ, bigE, bigD, wienerCheck) == false) continue;
+                break;
+            } while (true);
+
+            N = bigN.ToString();
+            P = bigP.ToString();
+            Q = bigQ.ToString();
+            D = bigD.ToString();
+        }
 
         internal static BigInteger RSAEncrypt(BigInteger data, RSAPrivateKey key)
         {

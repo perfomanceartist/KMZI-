@@ -25,21 +25,38 @@ namespace RSA__Lab_1_
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            string[] keys = new string[flowLayoutPanel.Controls.Count];
-            string[] messages = new string[flowLayoutPanel.Controls.Count];
+            /* string[] keys = new string[flowLayoutPanel.Controls.Count];
+             string[] messages = new string[flowLayoutPanel.Controls.Count];*/
+
+            List<string> keys = new List<string>();
+            List<string> messages = new List<string>();
 
             for (int i = 0; i < flowLayoutPanel.Controls.Count; i++)
             {
                 CommonEPanel panel = (CommonEPanel)flowLayoutPanel.Controls[i];
-                keys[i] = panel.keyFilename;
-                messages[i] = panel.cipherTextFilename;
+                keys.Add(panel.keyFilename);
+                messages.Add(panel.cipherTextFilename);
             }
 
 
-            bool result = true;
+            saveFileDialog.Title = "Дешифрованное сообщение";
+            if (saveFileDialog.ShowDialog() == DialogResult.Cancel) return;
+            string path = saveFileDialog.FileName;
 
+
+            bool result = CryptographyLib.RSA.CommonEAttack(keys, messages, path);
 
             if (result)
+            {
+                MessageBox.Show("Атака прошла удачно!", "Бесключевое дешифрование с общим открытым показателем");
+            }
+            else
+            {
+                MessageBox.Show("Атака завершилась неудачей.", "Бесключевое дешифрование с общим открытым показателем");
+            }
+
+
+            /*if (result)
             {
                 DialogResult dialogResult = MessageBox.Show(
                     "Атака успешна! Сохранить дешифрованное сообщение?",
@@ -50,7 +67,12 @@ namespace RSA__Lab_1_
 
                 if (dialogResult == DialogResult.Yes) { }
                 else { }
-            }
+            }*/
+
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
 
         }
     }

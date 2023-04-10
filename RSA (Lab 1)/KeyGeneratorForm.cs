@@ -39,16 +39,8 @@ namespace RSA__Lab_1_
 
             string N, P, Q, E, D;
 
-            if (checkBoxFixN.Checked)
+            if (radioButtonDefault.Checked)
             {
-                N = textBoxN.Text; // Всегда подходящее число, т.к. нельзя ввести вручную
-                P = textBoxP.Text;
-                Q = textBoxQ.Text;
-                CryptographyLib.RSA.GenerateRSAKeys(P, Q, out E, out D);
-                textBoxE.Text = E;
-                textBoxD.Text = D;
-            }
-            else {
                 CryptographyLib.RSA.GenerateRSAKeys(keySize, out N, out P, out Q, out E, out D);
                 textBoxN.Text = N;
                 textBoxP.Text = P;
@@ -56,20 +48,53 @@ namespace RSA__Lab_1_
                 textBoxE.Text = E;
                 textBoxD.Text = D;
             }
+            else if (radioButtonCommonN.Checked)
+            {
+                P = textBoxP.Text;
+                Q = textBoxQ.Text;
+                if (P == "" || Q == "")
+                {
+                    CryptographyLib.RSA.GenerateRSAKeys(keySize, out N, out P, out Q, out E, out D);
+                    textBoxN.Text = N;
+                    textBoxP.Text = P;
+                    textBoxQ.Text = Q;
+                    textBoxE.Text = E;
+                    textBoxD.Text = D;
+                }
+                else
+                {
+                    CryptographyLib.RSA.GenerateRSAKeys(P, Q, out E, out D);
+                    textBoxE.Text = E;
+                    textBoxD.Text = D;
+                }
+            }
+            else if (radioButtonCommonE.Checked)
+            {                
+                E = "3";
+                CryptographyLib.RSA.GenerateRSAKeys(keySize, E, out N, out P, out Q, out D);
+                textBoxN.Text = N;
+                textBoxP.Text = P;
+                textBoxQ.Text = Q;
+                textBoxE.Text = E;
+                textBoxD.Text = D;
+            }
+            if (radioButtonWiener.Checked)
+            {
+                CryptographyLib.RSA.GenerateRSAKeys(keySize, out N, out P, out Q, out E, out D, false);
+                textBoxN.Text = N;
+                textBoxP.Text = P;
+                textBoxQ.Text = Q;
+                textBoxE.Text = E;
+                textBoxD.Text = D;
+            }
+
+
+
         }
 
         private void checkBoxFixN_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxFixN.Checked)
-            {
-                textBoxKeyLength.Enabled = false;
-                textBoxN.Enabled = false;
-            }
-            else
-            {
-                textBoxKeyLength.Enabled = true;
-                textBoxN.Enabled = true;
-            }
+            
         }
 
         private void buttonExportPublicKey_Click(object sender, EventArgs e)
@@ -100,10 +125,7 @@ namespace RSA__Lab_1_
             CryptographyLib.RSA.ExportPrivateKey(path, N, D);
         }
 
-        private void textBoxKeyLength_TextChanged(object sender, EventArgs e)
-        {
 
-        }
 
     }
 }

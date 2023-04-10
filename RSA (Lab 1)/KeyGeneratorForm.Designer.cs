@@ -43,16 +43,21 @@
             this.labelQ = new System.Windows.Forms.Label();
             this.labelE = new System.Windows.Forms.Label();
             this.labelD = new System.Windows.Forms.Label();
-            this.checkBoxFixN = new System.Windows.Forms.CheckBox();
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.saveFileDialogKey = new System.Windows.Forms.SaveFileDialog();
+            this.groupBoxParams = new System.Windows.Forms.GroupBox();
+            this.radioButtonCommonN = new System.Windows.Forms.RadioButton();
+            this.radioButtonCommonE = new System.Windows.Forms.RadioButton();
+            this.radioButtonDefault = new System.Windows.Forms.RadioButton();
+            this.radioButtonWiener = new System.Windows.Forms.RadioButton();
+            this.groupBoxParams.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonExportPublicKey
             // 
-            this.buttonExportPublicKey.Location = new System.Drawing.Point(314, 130);
+            this.buttonExportPublicKey.Location = new System.Drawing.Point(302, 130);
             this.buttonExportPublicKey.Name = "buttonExportPublicKey";
-            this.buttonExportPublicKey.Size = new System.Drawing.Size(98, 23);
+            this.buttonExportPublicKey.Size = new System.Drawing.Size(183, 23);
             this.buttonExportPublicKey.TabIndex = 0;
             this.buttonExportPublicKey.Text = "Экспорт";
             this.buttonExportPublicKey.UseVisualStyleBackColor = true;
@@ -60,9 +65,9 @@
             // 
             // buttonExportPrivateKey
             // 
-            this.buttonExportPrivateKey.Location = new System.Drawing.Point(314, 159);
+            this.buttonExportPrivateKey.Location = new System.Drawing.Point(302, 159);
             this.buttonExportPrivateKey.Name = "buttonExportPrivateKey";
-            this.buttonExportPrivateKey.Size = new System.Drawing.Size(98, 23);
+            this.buttonExportPrivateKey.Size = new System.Drawing.Size(183, 23);
             this.buttonExportPrivateKey.TabIndex = 1;
             this.buttonExportPrivateKey.Text = "Экспорт";
             this.buttonExportPrivateKey.UseVisualStyleBackColor = true;
@@ -70,11 +75,10 @@
             // 
             // textBoxKeyLength
             // 
-            this.textBoxKeyLength.Location = new System.Drawing.Point(142, 15);
+            this.textBoxKeyLength.Location = new System.Drawing.Point(136, 15);
             this.textBoxKeyLength.Name = "textBoxKeyLength";
-            this.textBoxKeyLength.Size = new System.Drawing.Size(155, 23);
+            this.textBoxKeyLength.Size = new System.Drawing.Size(156, 23);
             this.textBoxKeyLength.TabIndex = 2;
-            this.textBoxKeyLength.TextChanged += new System.EventHandler(this.textBoxKeyLength_TextChanged);
             // 
             // labelKeyLength
             // 
@@ -87,7 +91,7 @@
             // 
             // textBoxN
             // 
-            this.textBoxN.Location = new System.Drawing.Point(142, 44);
+            this.textBoxN.Location = new System.Drawing.Point(137, 44);
             this.textBoxN.Name = "textBoxN";
             this.textBoxN.ReadOnly = true;
             this.textBoxN.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
@@ -96,7 +100,7 @@
             // 
             // textBoxQ
             // 
-            this.textBoxQ.Location = new System.Drawing.Point(142, 102);
+            this.textBoxQ.Location = new System.Drawing.Point(137, 102);
             this.textBoxQ.Name = "textBoxQ";
             this.textBoxQ.ReadOnly = true;
             this.textBoxQ.Size = new System.Drawing.Size(155, 23);
@@ -104,7 +108,7 @@
             // 
             // textBoxP
             // 
-            this.textBoxP.Location = new System.Drawing.Point(142, 73);
+            this.textBoxP.Location = new System.Drawing.Point(137, 73);
             this.textBoxP.Name = "textBoxP";
             this.textBoxP.ReadOnly = true;
             this.textBoxP.Size = new System.Drawing.Size(155, 23);
@@ -112,18 +116,18 @@
             // 
             // textBoxE
             // 
-            this.textBoxE.Location = new System.Drawing.Point(142, 131);
+            this.textBoxE.Location = new System.Drawing.Point(136, 130);
             this.textBoxE.Name = "textBoxE";
             this.textBoxE.ReadOnly = true;
-            this.textBoxE.Size = new System.Drawing.Size(155, 23);
+            this.textBoxE.Size = new System.Drawing.Size(156, 23);
             this.textBoxE.TabIndex = 8;
             // 
             // textBoxD
             // 
-            this.textBoxD.Location = new System.Drawing.Point(142, 160);
+            this.textBoxD.Location = new System.Drawing.Point(136, 161);
             this.textBoxD.Name = "textBoxD";
             this.textBoxD.ReadOnly = true;
-            this.textBoxD.Size = new System.Drawing.Size(155, 23);
+            this.textBoxD.Size = new System.Drawing.Size(156, 23);
             this.textBoxD.TabIndex = 9;
             // 
             // labelN
@@ -171,34 +175,79 @@
             this.labelD.TabIndex = 14;
             this.labelD.Text = "Закрытый ключ (D)";
             // 
-            // checkBoxFixN
-            // 
-            this.checkBoxFixN.AutoSize = true;
-            this.checkBoxFixN.Location = new System.Drawing.Point(314, 46);
-            this.checkBoxFixN.Name = "checkBoxFixN";
-            this.checkBoxFixN.Size = new System.Drawing.Size(98, 19);
-            this.checkBoxFixN.TabIndex = 15;
-            this.checkBoxFixN.Text = "Фиксировать";
-            this.checkBoxFixN.UseVisualStyleBackColor = true;
-            this.checkBoxFixN.CheckedChanged += new System.EventHandler(this.checkBoxFixN_CheckedChanged);
-            // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(314, 14);
+            this.buttonGenerate.Location = new System.Drawing.Point(302, 15);
             this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(98, 23);
+            this.buttonGenerate.Size = new System.Drawing.Size(183, 23);
             this.buttonGenerate.TabIndex = 16;
             this.buttonGenerate.Text = "Сгенерировать";
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
+            // groupBoxParams
+            // 
+            this.groupBoxParams.Controls.Add(this.radioButtonWiener);
+            this.groupBoxParams.Controls.Add(this.radioButtonCommonN);
+            this.groupBoxParams.Controls.Add(this.radioButtonCommonE);
+            this.groupBoxParams.Controls.Add(this.radioButtonDefault);
+            this.groupBoxParams.Location = new System.Drawing.Point(302, 44);
+            this.groupBoxParams.Name = "groupBoxParams";
+            this.groupBoxParams.Size = new System.Drawing.Size(183, 76);
+            this.groupBoxParams.TabIndex = 18;
+            this.groupBoxParams.TabStop = false;
+            this.groupBoxParams.Text = "Параметры";
+            // 
+            // radioButtonCommonN
+            // 
+            this.radioButtonCommonN.AutoSize = true;
+            this.radioButtonCommonN.Location = new System.Drawing.Point(92, 21);
+            this.radioButtonCommonN.Name = "radioButtonCommonN";
+            this.radioButtonCommonN.Size = new System.Drawing.Size(78, 19);
+            this.radioButtonCommonN.TabIndex = 2;
+            this.radioButtonCommonN.Text = "Общий N";
+            this.radioButtonCommonN.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonCommonE
+            // 
+            this.radioButtonCommonE.AutoSize = true;
+            this.radioButtonCommonE.Location = new System.Drawing.Point(6, 46);
+            this.radioButtonCommonE.Name = "radioButtonCommonE";
+            this.radioButtonCommonE.Size = new System.Drawing.Size(75, 19);
+            this.radioButtonCommonE.TabIndex = 1;
+            this.radioButtonCommonE.Text = "Общий Е";
+            this.radioButtonCommonE.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDefault
+            // 
+            this.radioButtonDefault.AutoSize = true;
+            this.radioButtonDefault.Checked = true;
+            this.radioButtonDefault.Location = new System.Drawing.Point(6, 21);
+            this.radioButtonDefault.Name = "radioButtonDefault";
+            this.radioButtonDefault.Size = new System.Drawing.Size(80, 19);
+            this.radioButtonDefault.TabIndex = 0;
+            this.radioButtonDefault.TabStop = true;
+            this.radioButtonDefault.Text = "Обычный";
+            this.radioButtonDefault.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonWiener
+            // 
+            this.radioButtonWiener.AutoSize = true;
+            this.radioButtonWiener.Location = new System.Drawing.Point(92, 46);
+            this.radioButtonWiener.Name = "radioButtonWiener";
+            this.radioButtonWiener.Size = new System.Drawing.Size(59, 19);
+            this.radioButtonWiener.TabIndex = 3;
+            this.radioButtonWiener.TabStop = true;
+            this.radioButtonWiener.Text = "Винер";
+            this.radioButtonWiener.UseVisualStyleBackColor = true;
+            // 
             // KeyGeneratorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(428, 206);
+            this.ClientSize = new System.Drawing.Size(497, 206);
+            this.Controls.Add(this.groupBoxParams);
             this.Controls.Add(this.buttonGenerate);
-            this.Controls.Add(this.checkBoxFixN);
             this.Controls.Add(this.labelD);
             this.Controls.Add(this.labelE);
             this.Controls.Add(this.labelQ);
@@ -216,6 +265,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "KeyGeneratorForm";
             this.Text = "Генерация ключа";
+            this.groupBoxParams.ResumeLayout(false);
+            this.groupBoxParams.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,8 +288,12 @@
         private Label labelQ;
         private Label labelE;
         private Label labelD;
-        private CheckBox checkBoxFixN;
         private Button buttonGenerate;
         private SaveFileDialog saveFileDialogKey;
+        private GroupBox groupBoxParams;
+        private RadioButton radioButtonCommonN;
+        private RadioButton radioButtonCommonE;
+        private RadioButton radioButtonDefault;
+        private RadioButton radioButtonWiener;
     }
 }
