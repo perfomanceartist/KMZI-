@@ -31,9 +31,9 @@ namespace RSA__Lab_1_
                 MessageBox.Show("Ошибка в длине ключа!");
                 return;
             }
-            if (keySize < 384 || keySize > 16384)
+            if (keySize < 1024 || keySize > 16384)
             {
-                MessageBox.Show("Длина ключа может быть от 384 до 16384 бит!");
+                MessageBox.Show("Длина ключа может быть от 1024 до 16384 бит!");
                 return;
             }
 
@@ -125,7 +125,9 @@ namespace RSA__Lab_1_
             CryptographyLib.RSA.ExportPrivateKey(path, N, D);
         }
 
+        private void textBoxKeyLength_TextChanged(object sender, EventArgs e)
+        {
 
-
+        }
     }
 }

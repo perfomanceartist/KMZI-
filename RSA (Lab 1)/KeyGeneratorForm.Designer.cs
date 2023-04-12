@@ -46,10 +46,10 @@
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.saveFileDialogKey = new System.Windows.Forms.SaveFileDialog();
             this.groupBoxParams = new System.Windows.Forms.GroupBox();
+            this.radioButtonWiener = new System.Windows.Forms.RadioButton();
             this.radioButtonCommonN = new System.Windows.Forms.RadioButton();
             this.radioButtonCommonE = new System.Windows.Forms.RadioButton();
             this.radioButtonDefault = new System.Windows.Forms.RadioButton();
-            this.radioButtonWiener = new System.Windows.Forms.RadioButton();
             this.groupBoxParams.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,6 +79,8 @@
             this.textBoxKeyLength.Name = "textBoxKeyLength";
             this.textBoxKeyLength.Size = new System.Drawing.Size(156, 23);
             this.textBoxKeyLength.TabIndex = 2;
+            this.textBoxKeyLength.Text = "1024";
+            this.textBoxKeyLength.TextChanged += new System.EventHandler(this.textBoxKeyLength_TextChanged);
             // 
             // labelKeyLength
             // 
@@ -198,6 +200,17 @@
             this.groupBoxParams.TabStop = false;
             this.groupBoxParams.Text = "Параметры";
             // 
+            // radioButtonWiener
+            // 
+            this.radioButtonWiener.AutoSize = true;
+            this.radioButtonWiener.Location = new System.Drawing.Point(92, 46);
+            this.radioButtonWiener.Name = "radioButtonWiener";
+            this.radioButtonWiener.Size = new System.Drawing.Size(59, 19);
+            this.radioButtonWiener.TabIndex = 3;
+            this.radioButtonWiener.TabStop = true;
+            this.radioButtonWiener.Text = "Винер";
+            this.radioButtonWiener.UseVisualStyleBackColor = true;
+            // 
             // radioButtonCommonN
             // 
             this.radioButtonCommonN.AutoSize = true;
@@ -229,17 +242,6 @@
             this.radioButtonDefault.TabStop = true;
             this.radioButtonDefault.Text = "Обычный";
             this.radioButtonDefault.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonWiener
-            // 
-            this.radioButtonWiener.AutoSize = true;
-            this.radioButtonWiener.Location = new System.Drawing.Point(92, 46);
-            this.radioButtonWiener.Name = "radioButtonWiener";
-            this.radioButtonWiener.Size = new System.Drawing.Size(59, 19);
-            this.radioButtonWiener.TabIndex = 3;
-            this.radioButtonWiener.TabStop = true;
-            this.radioButtonWiener.Text = "Винер";
-            this.radioButtonWiener.UseVisualStyleBackColor = true;
             // 
             // KeyGeneratorForm
             // 
