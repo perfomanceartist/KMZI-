@@ -64,6 +64,7 @@ namespace Massey_Omura_Client
             
             string IP = textBoxNewIP.Text;
             string Port = textBoxNewPort.Text;
+            Cursor.Current = Cursors.AppStarting;
             Client client = new Client(IP, Convert.ToInt32(Port));
             /*if (radioButtonFile.Checked)
             {
@@ -83,7 +84,7 @@ namespace Massey_Omura_Client
             string dataString = richTextBox1.Text;
             client.Send(dataString);
 
-
+            Cursor.Current = Cursors.Default;
             /*Client client = new Client(IP, Port);
             if(!client.Connect())
             {
