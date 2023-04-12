@@ -342,7 +342,7 @@ namespace RSA__Lab_1_
         private void buttonGOSTSignFile_Click(object sender, EventArgs e)
         {
             openFileDialog.Title = "Файл подписи";
-            openFileDialog.Filter = "";
+            openFileDialog.Filter = "Файлы подписи (*.bin)|*.bin";
             if (openFileDialog.ShowDialog() == DialogResult.Cancel)
                 return;
             string filename = openFileDialog.FileName;
@@ -398,6 +398,8 @@ namespace RSA__Lab_1_
 
             GOST gost = new GOST(A, B, p, xP, yP, q);
             gost.Sign(d, signGOSTMessageFilename, filename);
+
+            MessageBox.Show("Подпись готова!", "Подпись ГОСТ");
         }
 
         private void buttonGOSTSignMsg_Click(object sender, EventArgs e)
