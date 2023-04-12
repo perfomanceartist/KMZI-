@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabControlGOSTVerify = new System.Windows.Forms.TabControl();
             this.tabPageCipher = new System.Windows.Forms.TabPage();
             this.groupBoxDecrypt = new System.Windows.Forms.GroupBox();
             this.labelRSAPrivateKey = new System.Windows.Forms.Label();
@@ -61,6 +61,32 @@
             this.buttonSign = new System.Windows.Forms.Button();
             this.buttonRSAPrivateKeySign = new System.Windows.Forms.Button();
             this.buttonMessageSign = new System.Windows.Forms.Button();
+            this.tabPageGOST = new System.Windows.Forms.TabPage();
+            this.buttonGOSTSignMsg = new System.Windows.Forms.Button();
+            this.labelGOSTSignFilename = new System.Windows.Forms.Label();
+            this.buttonGOSTSign = new System.Windows.Forms.Button();
+            this.textBoxGOSTD = new System.Windows.Forms.TextBox();
+            this.labelGOSTD = new System.Windows.Forms.Label();
+            this.groupBoxCurveParams = new System.Windows.Forms.GroupBox();
+            this.textBoxGOSTP = new System.Windows.Forms.TextBox();
+            this.textBoxGOSTB = new System.Windows.Forms.TextBox();
+            this.textBoxGOSTA = new System.Windows.Forms.TextBox();
+            this.groupBoxBasePoint = new System.Windows.Forms.GroupBox();
+            this.textBoxGOSTQ = new System.Windows.Forms.TextBox();
+            this.textBoxGOSTyP = new System.Windows.Forms.TextBox();
+            this.textBoxGOSTxP = new System.Windows.Forms.TextBox();
+            this.labelBasePointQ = new System.Windows.Forms.Label();
+            this.labelBasePointY = new System.Windows.Forms.Label();
+            this.labeBasePointX = new System.Windows.Forms.Label();
+            this.labelCurveModule = new System.Windows.Forms.Label();
+            this.labelCurveB = new System.Windows.Forms.Label();
+            this.labelCurveA = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonGOSTVerify = new System.Windows.Forms.Button();
+            this.buttonGOSTSignFile = new System.Windows.Forms.Button();
+            this.buttonGOSTMsg = new System.Windows.Forms.Button();
+            this.labelGOSTSign = new System.Windows.Forms.Label();
+            this.labelGOSTMessage = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -71,25 +97,31 @@
             this.атакаВинераToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.малыйОбщийПоказательToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl.SuspendLayout();
+            this.tabControlGOSTVerify.SuspendLayout();
             this.tabPageCipher.SuspendLayout();
             this.groupBoxDecrypt.SuspendLayout();
             this.groupBoxEncrypt.SuspendLayout();
             this.tabPageSignature.SuspendLayout();
             this.groupBoxVerify.SuspendLayout();
             this.groupBoxSign.SuspendLayout();
+            this.tabPageGOST.SuspendLayout();
+            this.groupBoxCurveParams.SuspendLayout();
+            this.groupBoxBasePoint.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl
+            // tabControlGOSTVerify
             // 
-            this.tabControl.Controls.Add(this.tabPageCipher);
-            this.tabControl.Controls.Add(this.tabPageSignature);
-            this.tabControl.Location = new System.Drawing.Point(12, 27);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(312, 404);
-            this.tabControl.TabIndex = 0;
+            this.tabControlGOSTVerify.Controls.Add(this.tabPageCipher);
+            this.tabControlGOSTVerify.Controls.Add(this.tabPageSignature);
+            this.tabControlGOSTVerify.Controls.Add(this.tabPageGOST);
+            this.tabControlGOSTVerify.Controls.Add(this.tabPage1);
+            this.tabControlGOSTVerify.Location = new System.Drawing.Point(12, 27);
+            this.tabControlGOSTVerify.Name = "tabControlGOSTVerify";
+            this.tabControlGOSTVerify.SelectedIndex = 0;
+            this.tabControlGOSTVerify.Size = new System.Drawing.Size(312, 404);
+            this.tabControlGOSTVerify.TabIndex = 0;
             // 
             // tabPageCipher
             // 
@@ -283,7 +315,7 @@
             this.tabPageSignature.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageSignature.Size = new System.Drawing.Size(304, 376);
             this.tabPageSignature.TabIndex = 1;
-            this.tabPageSignature.Text = "ЭЦП";
+            this.tabPageSignature.Text = "RSA ЭЦП";
             this.tabPageSignature.UseVisualStyleBackColor = true;
             // 
             // groupBoxVerify
@@ -443,6 +475,270 @@
             this.buttonMessageSign.UseVisualStyleBackColor = true;
             this.buttonMessageSign.Click += new System.EventHandler(this.buttonMessageSign_Click);
             // 
+            // tabPageGOST
+            // 
+            this.tabPageGOST.Controls.Add(this.buttonGOSTSignMsg);
+            this.tabPageGOST.Controls.Add(this.labelGOSTSignFilename);
+            this.tabPageGOST.Controls.Add(this.buttonGOSTSign);
+            this.tabPageGOST.Controls.Add(this.textBoxGOSTD);
+            this.tabPageGOST.Controls.Add(this.labelGOSTD);
+            this.tabPageGOST.Controls.Add(this.groupBoxCurveParams);
+            this.tabPageGOST.Location = new System.Drawing.Point(4, 24);
+            this.tabPageGOST.Name = "tabPageGOST";
+            this.tabPageGOST.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGOST.Size = new System.Drawing.Size(304, 376);
+            this.tabPageGOST.TabIndex = 2;
+            this.tabPageGOST.Text = "ГОСТ ЭЦП";
+            this.tabPageGOST.UseVisualStyleBackColor = true;
+            // 
+            // buttonGOSTSignMsg
+            // 
+            this.buttonGOSTSignMsg.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.buttonGOSTSignMsg.Location = new System.Drawing.Point(210, 281);
+            this.buttonGOSTSignMsg.Name = "buttonGOSTSignMsg";
+            this.buttonGOSTSignMsg.Size = new System.Drawing.Size(75, 23);
+            this.buttonGOSTSignMsg.TabIndex = 11;
+            this.buttonGOSTSignMsg.Text = "Выбрать";
+            this.buttonGOSTSignMsg.UseVisualStyleBackColor = true;
+            this.buttonGOSTSignMsg.Click += new System.EventHandler(this.buttonGOSTSignMsg_Click);
+            // 
+            // labelGOSTSignFilename
+            // 
+            this.labelGOSTSignFilename.AutoSize = true;
+            this.labelGOSTSignFilename.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.labelGOSTSignFilename.Location = new System.Drawing.Point(12, 285);
+            this.labelGOSTSignFilename.Name = "labelGOSTSignFilename";
+            this.labelGOSTSignFilename.Size = new System.Drawing.Size(100, 15);
+            this.labelGOSTSignFilename.TabIndex = 10;
+            this.labelGOSTSignFilename.Text = "Файл сообщения";
+            // 
+            // buttonGOSTSign
+            // 
+            this.buttonGOSTSign.Location = new System.Drawing.Point(18, 323);
+            this.buttonGOSTSign.Name = "buttonGOSTSign";
+            this.buttonGOSTSign.Size = new System.Drawing.Size(273, 23);
+            this.buttonGOSTSign.TabIndex = 9;
+            this.buttonGOSTSign.Text = "Подписать";
+            this.buttonGOSTSign.UseVisualStyleBackColor = true;
+            this.buttonGOSTSign.Click += new System.EventHandler(this.buttonGOSTSign_Click);
+            // 
+            // textBoxGOSTD
+            // 
+            this.textBoxGOSTD.Location = new System.Drawing.Point(111, 239);
+            this.textBoxGOSTD.Name = "textBoxGOSTD";
+            this.textBoxGOSTD.Size = new System.Drawing.Size(174, 23);
+            this.textBoxGOSTD.TabIndex = 8;
+            this.textBoxGOSTD.Text = "55441196065363246126355624130324183196576709222340016572108097750006097525544";
+            // 
+            // labelGOSTD
+            // 
+            this.labelGOSTD.AutoSize = true;
+            this.labelGOSTD.Location = new System.Drawing.Point(12, 242);
+            this.labelGOSTD.Name = "labelGOSTD";
+            this.labelGOSTD.Size = new System.Drawing.Size(79, 15);
+            this.labelGOSTD.TabIndex = 1;
+            this.labelGOSTD.Text = "Закр. ключ d";
+            // 
+            // groupBoxCurveParams
+            // 
+            this.groupBoxCurveParams.Controls.Add(this.textBoxGOSTP);
+            this.groupBoxCurveParams.Controls.Add(this.textBoxGOSTB);
+            this.groupBoxCurveParams.Controls.Add(this.textBoxGOSTA);
+            this.groupBoxCurveParams.Controls.Add(this.groupBoxBasePoint);
+            this.groupBoxCurveParams.Controls.Add(this.labelCurveModule);
+            this.groupBoxCurveParams.Controls.Add(this.labelCurveB);
+            this.groupBoxCurveParams.Controls.Add(this.labelCurveA);
+            this.groupBoxCurveParams.Location = new System.Drawing.Point(6, 6);
+            this.groupBoxCurveParams.Name = "groupBoxCurveParams";
+            this.groupBoxCurveParams.Size = new System.Drawing.Size(292, 217);
+            this.groupBoxCurveParams.TabIndex = 0;
+            this.groupBoxCurveParams.TabStop = false;
+            this.groupBoxCurveParams.Text = "Параметры Кривой";
+            // 
+            // textBoxGOSTP
+            // 
+            this.textBoxGOSTP.Location = new System.Drawing.Point(112, 74);
+            this.textBoxGOSTP.Name = "textBoxGOSTP";
+            this.textBoxGOSTP.Size = new System.Drawing.Size(174, 23);
+            this.textBoxGOSTP.TabIndex = 6;
+            this.textBoxGOSTP.Text = "57896044622894643241131754937450315750132642216230685504884320870273678881443";
+            // 
+            // textBoxGOSTB
+            // 
+            this.textBoxGOSTB.Location = new System.Drawing.Point(112, 45);
+            this.textBoxGOSTB.Name = "textBoxGOSTB";
+            this.textBoxGOSTB.Size = new System.Drawing.Size(174, 23);
+            this.textBoxGOSTB.TabIndex = 5;
+            this.textBoxGOSTB.Text = "41431894589448105498289586872587560387979247722721848579560344157562082667257";
+            // 
+            // textBoxGOSTA
+            // 
+            this.textBoxGOSTA.Location = new System.Drawing.Point(112, 16);
+            this.textBoxGOSTA.Name = "textBoxGOSTA";
+            this.textBoxGOSTA.Size = new System.Drawing.Size(174, 23);
+            this.textBoxGOSTA.TabIndex = 4;
+            this.textBoxGOSTA.Text = "1";
+            // 
+            // groupBoxBasePoint
+            // 
+            this.groupBoxBasePoint.Controls.Add(this.textBoxGOSTQ);
+            this.groupBoxBasePoint.Controls.Add(this.textBoxGOSTyP);
+            this.groupBoxBasePoint.Controls.Add(this.textBoxGOSTxP);
+            this.groupBoxBasePoint.Controls.Add(this.labelBasePointQ);
+            this.groupBoxBasePoint.Controls.Add(this.labelBasePointY);
+            this.groupBoxBasePoint.Controls.Add(this.labeBasePointX);
+            this.groupBoxBasePoint.Location = new System.Drawing.Point(6, 103);
+            this.groupBoxBasePoint.Name = "groupBoxBasePoint";
+            this.groupBoxBasePoint.Size = new System.Drawing.Size(279, 108);
+            this.groupBoxBasePoint.TabIndex = 3;
+            this.groupBoxBasePoint.TabStop = false;
+            this.groupBoxBasePoint.Text = "Базовая точка";
+            // 
+            // textBoxGOSTQ
+            // 
+            this.textBoxGOSTQ.Location = new System.Drawing.Point(99, 74);
+            this.textBoxGOSTQ.Name = "textBoxGOSTQ";
+            this.textBoxGOSTQ.Size = new System.Drawing.Size(174, 23);
+            this.textBoxGOSTQ.TabIndex = 7;
+            this.textBoxGOSTQ.Text = "28948022311447321620565877468725157875067316353637126186229732812867492750347";
+            // 
+            // textBoxGOSTyP
+            // 
+            this.textBoxGOSTyP.Location = new System.Drawing.Point(99, 45);
+            this.textBoxGOSTyP.Name = "textBoxGOSTyP";
+            this.textBoxGOSTyP.Size = new System.Drawing.Size(174, 23);
+            this.textBoxGOSTyP.TabIndex = 6;
+            this.textBoxGOSTyP.Text = "42098178416750523198643432544018510845496542305814546233883323764837032783338";
+            // 
+            // textBoxGOSTxP
+            // 
+            this.textBoxGOSTxP.Location = new System.Drawing.Point(99, 16);
+            this.textBoxGOSTxP.Name = "textBoxGOSTxP";
+            this.textBoxGOSTxP.Size = new System.Drawing.Size(174, 23);
+            this.textBoxGOSTxP.TabIndex = 5;
+            this.textBoxGOSTxP.Text = "54672615043105947691210796380713598019547553171137275980323095812145568854782";
+            // 
+            // labelBasePointQ
+            // 
+            this.labelBasePointQ.AutoSize = true;
+            this.labelBasePointQ.Location = new System.Drawing.Point(6, 77);
+            this.labelBasePointQ.Name = "labelBasePointQ";
+            this.labelBasePointQ.Size = new System.Drawing.Size(65, 15);
+            this.labelBasePointQ.TabIndex = 2;
+            this.labelBasePointQ.Text = "Порядок q";
+            // 
+            // labelBasePointY
+            // 
+            this.labelBasePointY.AutoSize = true;
+            this.labelBasePointY.Location = new System.Drawing.Point(6, 48);
+            this.labelBasePointY.Name = "labelBasePointY";
+            this.labelBasePointY.Size = new System.Drawing.Size(20, 15);
+            this.labelBasePointY.TabIndex = 1;
+            this.labelBasePointY.Text = "yP";
+            // 
+            // labeBasePointX
+            // 
+            this.labeBasePointX.AutoSize = true;
+            this.labeBasePointX.Location = new System.Drawing.Point(6, 19);
+            this.labeBasePointX.Name = "labeBasePointX";
+            this.labeBasePointX.Size = new System.Drawing.Size(20, 15);
+            this.labeBasePointX.TabIndex = 0;
+            this.labeBasePointX.Text = "xP";
+            // 
+            // labelCurveModule
+            // 
+            this.labelCurveModule.AutoSize = true;
+            this.labelCurveModule.Location = new System.Drawing.Point(6, 77);
+            this.labelCurveModule.Name = "labelCurveModule";
+            this.labelCurveModule.Size = new System.Drawing.Size(60, 15);
+            this.labelCurveModule.TabIndex = 2;
+            this.labelCurveModule.Text = "Модуль p";
+            // 
+            // labelCurveB
+            // 
+            this.labelCurveB.AutoSize = true;
+            this.labelCurveB.Location = new System.Drawing.Point(6, 48);
+            this.labelCurveB.Name = "labelCurveB";
+            this.labelCurveB.Size = new System.Drawing.Size(14, 15);
+            this.labelCurveB.TabIndex = 1;
+            this.labelCurveB.Text = "B";
+            // 
+            // labelCurveA
+            // 
+            this.labelCurveA.AutoSize = true;
+            this.labelCurveA.Location = new System.Drawing.Point(6, 19);
+            this.labelCurveA.Name = "labelCurveA";
+            this.labelCurveA.Size = new System.Drawing.Size(15, 15);
+            this.labelCurveA.TabIndex = 0;
+            this.labelCurveA.Text = "A";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.buttonGOSTVerify);
+            this.tabPage1.Controls.Add(this.buttonGOSTSignFile);
+            this.tabPage1.Controls.Add(this.buttonGOSTMsg);
+            this.tabPage1.Controls.Add(this.labelGOSTSign);
+            this.tabPage1.Controls.Add(this.labelGOSTMessage);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(304, 376);
+            this.tabPage1.TabIndex = 3;
+            this.tabPage1.Text = "ГОСТ Проверка";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // buttonGOSTVerify
+            // 
+            this.buttonGOSTVerify.Location = new System.Drawing.Point(22, 108);
+            this.buttonGOSTVerify.Name = "buttonGOSTVerify";
+            this.buttonGOSTVerify.Size = new System.Drawing.Size(255, 23);
+            this.buttonGOSTVerify.TabIndex = 4;
+            this.buttonGOSTVerify.Text = "Проверить подпись";
+            this.buttonGOSTVerify.UseVisualStyleBackColor = true;
+            this.buttonGOSTVerify.Click += new System.EventHandler(this.buttonGOSTVerify_Click);
+            // 
+            // buttonGOSTSignFile
+            // 
+            this.buttonGOSTSignFile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.buttonGOSTSignFile.Location = new System.Drawing.Point(202, 59);
+            this.buttonGOSTSignFile.Name = "buttonGOSTSignFile";
+            this.buttonGOSTSignFile.Size = new System.Drawing.Size(75, 23);
+            this.buttonGOSTSignFile.TabIndex = 3;
+            this.buttonGOSTSignFile.Text = "Выбрать";
+            this.buttonGOSTSignFile.UseVisualStyleBackColor = true;
+            this.buttonGOSTSignFile.Click += new System.EventHandler(this.buttonGOSTSignFile_Click);
+            // 
+            // buttonGOSTMsg
+            // 
+            this.buttonGOSTMsg.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.buttonGOSTMsg.Location = new System.Drawing.Point(202, 23);
+            this.buttonGOSTMsg.Name = "buttonGOSTMsg";
+            this.buttonGOSTMsg.Size = new System.Drawing.Size(75, 23);
+            this.buttonGOSTMsg.TabIndex = 2;
+            this.buttonGOSTMsg.Text = "Выбрать";
+            this.buttonGOSTMsg.UseVisualStyleBackColor = true;
+            this.buttonGOSTMsg.Click += new System.EventHandler(this.buttonGOSTMsg_Click);
+            // 
+            // labelGOSTSign
+            // 
+            this.labelGOSTSign.AutoSize = true;
+            this.labelGOSTSign.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.labelGOSTSign.Location = new System.Drawing.Point(22, 67);
+            this.labelGOSTSign.Name = "labelGOSTSign";
+            this.labelGOSTSign.Size = new System.Drawing.Size(33, 15);
+            this.labelGOSTSign.TabIndex = 1;
+            this.labelGOSTSign.Text = "ЭЦП";
+            // 
+            // labelGOSTMessage
+            // 
+            this.labelGOSTMessage.AutoSize = true;
+            this.labelGOSTMessage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.labelGOSTMessage.Location = new System.Drawing.Point(22, 27);
+            this.labelGOSTMessage.Name = "labelGOSTMessage";
+            this.labelGOSTMessage.Size = new System.Drawing.Size(70, 15);
+            this.labelGOSTMessage.TabIndex = 0;
+            this.labelGOSTMessage.Text = "Сообщение";
+            // 
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog1";
@@ -516,13 +812,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(334, 437);
-            this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.tabControlGOSTVerify);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Криптоконверт";
-            this.tabControl.ResumeLayout(false);
+            this.tabControlGOSTVerify.ResumeLayout(false);
             this.tabPageCipher.ResumeLayout(false);
             this.groupBoxDecrypt.ResumeLayout(false);
             this.groupBoxDecrypt.PerformLayout();
@@ -533,6 +829,14 @@
             this.groupBoxVerify.PerformLayout();
             this.groupBoxSign.ResumeLayout(false);
             this.groupBoxSign.PerformLayout();
+            this.tabPageGOST.ResumeLayout(false);
+            this.tabPageGOST.PerformLayout();
+            this.groupBoxCurveParams.ResumeLayout(false);
+            this.groupBoxCurveParams.PerformLayout();
+            this.groupBoxBasePoint.ResumeLayout(false);
+            this.groupBoxBasePoint.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -567,7 +871,7 @@
         private Button buttonSign;
         private Button buttonRSAPrivateKeySign;
         private Button buttonMessageSign;
-        public TabControl tabControl;
+        public TabControl tabControlGOSTVerify;
         private CheckBox checkBoxRandomAES;
         private Label labelRSAPrivateKey;
         private Button buttonRSAPrivateKey;
@@ -583,5 +887,31 @@
         private ToolStripMenuItem ключиСОбщимМодулемToolStripMenuItem;
         private ToolStripMenuItem атакаВинераToolStripMenuItem;
         private ToolStripMenuItem малыйОбщийПоказательToolStripMenuItem;
+        private TabPage tabPageGOST;
+        private GroupBox groupBoxCurveParams;
+        private GroupBox groupBoxBasePoint;
+        private Label labelBasePointQ;
+        private Label labelBasePointY;
+        private Label labeBasePointX;
+        private Label labelCurveModule;
+        private Label labelCurveB;
+        private Label labelCurveA;
+        private TextBox textBoxGOSTP;
+        private TextBox textBoxGOSTB;
+        private TextBox textBoxGOSTA;
+        private TextBox textBoxGOSTQ;
+        private TextBox textBoxGOSTyP;
+        private TextBox textBoxGOSTxP;
+        private Button buttonGOSTSign;
+        private TextBox textBoxGOSTD;
+        private Label labelGOSTD;
+        private TabPage tabPage1;
+        private Label labelGOSTSign;
+        private Label labelGOSTMessage;
+        private Button buttonGOSTSignFile;
+        private Button buttonGOSTMsg;
+        private Button buttonGOSTVerify;
+        private Label labelGOSTSignFilename;
+        private Button buttonGOSTSignMsg;
     }
 }

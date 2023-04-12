@@ -126,9 +126,23 @@ namespace CryptographyLib
             this.curve = curve;
         }
 
+        public GOST (string A, string B, string p, string xP, string yP, string q)
+        {
+            this.curve = new EllipticCurve(A, B, p, xP, yP, q);
+        }
+
         public byte[] getHash(byte[] message)
         {
             return Cryptography.CalculateSHA256(message);
+        }
+
+        public void Sign(string d, string messageFilename, string path)
+        {
+            BigInteger bigD = BigInteger.Parse(d);
+
+            byte[] msg = File.ReadAllBytes(messageFilename);
+            byte[] sign = Sign(bigD, msg);
+            File.WriteAllBytes(path, sign);
         }
 
         public byte[] Sign(BigInteger d, byte[] message)
@@ -160,6 +174,13 @@ namespace CryptographyLib
 
             EllipticCurvePoint Q = EllipticCurvePoint.Multiply(d, P);
             return ASN.GOST.Encode(Q, r, s);
+        }
+
+        public bool Verify(string messageFilename, string signFilename)
+        {
+            byte[] msg = File.ReadAllBytes(messageFilename);
+            byte[] sign = File.ReadAllBytes(signFilename);
+            return Verify(msg, sign);
         }
 
         public bool Verify(byte[] message, byte[] sign)
@@ -206,14 +227,26 @@ namespace CryptographyLib
 
         public EllipticCurve()
         {
-            p = BigInteger.Parse("57896044622894643241131754937450315750132642216230685504884320870273678881443");
-            q = BigInteger.Parse("28948022311447321620565877468725157875067316353637126186229732812867492750347");
             A = 1;
             B = BigInteger.Parse("41431894589448105498289586872587560387979247722721848579560344157562082667257");
+            p = BigInteger.Parse("57896044622894643241131754937450315750132642216230685504884320870273678881443");
+
             xP = BigInteger.Parse("54672615043105947691210796380713598019547553171137275980323095812145568854782");
             yP = BigInteger.Parse("42098178416750523198643432544018510845496542305814546233883323764837032783338");
+            q = BigInteger.Parse("28948022311447321620565877468725157875067316353637126186229732812867492750347");
         }
 
-        
+        public EllipticCurve(string sA, string sB, string sp, string sxP, string syP, string sq)
+        {
+            A = BigInteger.Parse(sA);
+            B = BigInteger.Parse(sB);
+            p = BigInteger.Parse(sp);
+
+            xP = BigInteger.Parse(sxP);
+            yP = BigInteger.Parse(syP);
+            q = BigInteger.Parse(sq);
+        }
+
+
     }
 }

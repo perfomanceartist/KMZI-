@@ -30,6 +30,10 @@ namespace RSA__Lab_1_
         private string verifyMessageFilename;
         private string verifySignmentFilename;
 
+        private string signGOSTMessageFilename;
+        private string signGOSTSignFilename;
+        private string verifyGOSTMessageFilename;
+        private string verifyGOSTSignFilename;
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxRandomAES.Checked == true)
@@ -314,6 +318,105 @@ namespace RSA__Lab_1_
         {
             CommonEForm form = new();
             form.Show();
+        }
+
+        private void buttonGOSTMsg_Click(object sender, EventArgs e)
+        {
+            openFileDialog.Title = "Файл сообщения для проверки подписи";
+            openFileDialog.Filter = "";
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            string filename = openFileDialog.FileName;
+            verifyGOSTMessageFilename = filename;
+
+
+            filename = Path.GetFileName(filename);
+            if (filename.Length > 20)
+            {
+                filename = filename.Substring(0, 20);
+                filename += "...";
+            }
+            labelGOSTMessage.Text = filename;
+        }
+
+        private void buttonGOSTSignFile_Click(object sender, EventArgs e)
+        {
+            openFileDialog.Title = "Файл подписи";
+            openFileDialog.Filter = "";
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            string filename = openFileDialog.FileName;
+            verifyGOSTSignFilename = filename;
+
+
+            filename = Path.GetFileName(filename);
+            if (filename.Length > 20)
+            {
+                filename = filename.Substring(0, 20);
+                filename += "...";
+            }
+            labelGOSTSign.Text = filename;
+        }
+
+        private void buttonGOSTVerify_Click(object sender, EventArgs e)
+        {
+            GOST gost = new GOST();
+            bool result = gost.Verify(verifyGOSTMessageFilename, verifyGOSTSignFilename);
+
+            if (result)
+            {
+                MessageBox.Show("Подпись верна!", "Проверка подписи ГОСТ");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка! Подпись не верна.", "Проверка подписи ГОСТ");
+            }
+        }
+
+       
+
+
+        private void buttonGOSTSign_Click(object sender, EventArgs e)
+        {
+            saveFileDialog.Title = "Файл подписи";
+            saveFileDialog.Filter = "Файлы подписи (*.bin)|*.bin";
+            if (saveFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            string filename = saveFileDialog.FileName;
+
+            string A, B, p, xP, yP, q;
+            string d;
+
+            A = textBoxGOSTA.Text;
+            B = textBoxGOSTB.Text;
+            p = textBoxGOSTP.Text;
+            xP = textBoxGOSTxP.Text;
+            yP = textBoxGOSTyP.Text;
+            q = textBoxGOSTQ.Text;
+
+            d = textBoxGOSTD.Text;
+
+            GOST gost = new GOST(A, B, p, xP, yP, q);
+            gost.Sign(d, signGOSTMessageFilename, filename);
+        }
+
+        private void buttonGOSTSignMsg_Click(object sender, EventArgs e)
+        {
+            openFileDialog.Title = "Файл сообщения для формирования подписи";
+            openFileDialog.Filter = "";
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            string filename = openFileDialog.FileName;
+            signGOSTMessageFilename = filename;
+
+
+            filename = Path.GetFileName(filename);
+            if (filename.Length > 20)
+            {
+                filename = filename.Substring(0, 20);
+                filename += "...";
+            }
+            labelGOSTSignFilename.Text = filename;
         }
     }
 }
