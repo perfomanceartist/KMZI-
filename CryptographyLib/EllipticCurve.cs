@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -66,33 +67,7 @@ namespace CryptographyLib
             EllipticCurvePoint Q;
             bool[] kBits = new bool[k.GetBitLength()]; int j = 0;
 
-            /*Q = new EllipticCurvePoint(P.x, P.y, P.curve);
-            for (int i = 1; i < k; i++)
-            {
-                Q = EllipticCurvePoint.Add(P, Q);
-            }*/
-
-
-
-            /*int start = 0; bool startbits = true;
-            while (k > 0)
-            {
-                if (startbits)
-                {
-                    start++;
-                    if (k.IsEven) startbits = false;
-                }
-                kBits[j] = k.IsEven;
-                k >>= 1;
-                j++;
-            }
-            kBits.Reverse<bool>();
-            Q = new EllipticCurvePoint(P.x, P.y, P.curve);
-            for (int i = start + 1; i < kBits.Length; i++)
-            {
-                Q = EllipticCurvePoint.Add(Q, Q);
-                if (kBits[i]) Q = EllipticCurvePoint.Add(Q, P);
-            }*/
+            
 
             while (k > 0)
             {
@@ -133,7 +108,9 @@ namespace CryptographyLib
 
         public byte[] getHash(byte[] message)
         {
-            return Cryptography.CalculateSHA256(message);
+            byte[] hash = Cryptography.CalculateSHA256(message);           
+            Debug.Write(BitConverter.ToString(hash));
+            return hash;
         }
 
         public void Sign(string d, string messageFilename, string path)
