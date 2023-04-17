@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CryptographyLib\CryptographyLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="CryptographyLib">
       <HintPath>..\CryptographyLib\bin\Debug\net6.0\CryptographyLib.dll</HintPath>
     </Reference>

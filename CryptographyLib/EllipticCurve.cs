@@ -86,6 +86,81 @@ namespace CryptographyLib
             return Q;
         }
 
+        public static EllipticCurvePoint Add(EllipticCurvePoint a, EllipticCurvePoint b, BigInteger n, out BigInteger d)
+        {
+            d = 1;
+            BigInteger p = a.curve.p;
+
+            if (a.isNull) return b;
+            if (b.isNull) return a;
+
+            if (a.x == b.x && a.y == b.y)
+            {
+                BigInteger lambda = (3 * a.x * a.x + a.curve.A) * Cryptography.getInverse((2 * a.y), p) % p;
+                if (lambda < 0) lambda += p;
+
+                d = BigInteger.GreatestCommonDivisor(n, a.y) % n;
+                if (d != 0 && d != 1) return a;
+
+                BigInteger x3 = (lambda * lambda - 2 * a.x) % p;
+                BigInteger y3 = (lambda * (a.x - x3) - a.y) % p;
+                if (x3 < 0) x3 += p;
+                if (y3 < 0) y3 += p;
+                return new EllipticCurvePoint(x3, y3, a.curve);
+            }
+            else if (a.x == b.x && (a.y == (-1) * b.y || a.y == b.y + p))
+            {
+                return new EllipticCurvePoint(0, 0, a.curve, isNull: true);
+            }
+            else
+            {
+                BigInteger lambda = (b.y - a.y) * Cryptography.getInverse((b.x - a.x), p) % p;
+                if (lambda < 0) lambda += p;
+
+                d = BigInteger.GreatestCommonDivisor(n, b.x - a.x) % n;
+                if (d != 0 && d != 1) return a;
+
+                BigInteger x3 = (lambda * lambda - a.x - b.x) % p;
+                BigInteger y3 = (lambda * (a.x - x3) - a.y) % p;
+                if (x3 < 0) x3 += p;
+                if (y3 < 0) y3 += p;
+                return new EllipticCurvePoint(x3, y3, a.curve);
+            }
+        }
+
+        public static EllipticCurvePoint Multiply(BigInteger k, EllipticCurvePoint P, BigInteger n, out BigInteger d)
+        {
+            d = 1;
+            if (k < 0)
+            {
+                k = -k;
+                P = new EllipticCurvePoint(P.x, -P.y, P.curve);
+            }
+            EllipticCurvePoint Q;
+            bool[] kBits = new bool[k.GetBitLength()]; int j = 0;
+
+
+
+            while (k > 0)
+            {
+                kBits[j] = !k.IsEven;
+                k >>= 1;
+                j++;
+            }
+            Array.Reverse(kBits);
+            Q = new EllipticCurvePoint(0, 0, P.curve, isNull: true);
+            for (int i = 0; i < kBits.Length; i++)
+            {
+                Q = EllipticCurvePoint.Add(Q, Q, n, out d);
+                if (d != 0 && d != 1) return P;
+                if (kBits[i]) Q = EllipticCurvePoint.Add(Q, P, n, out d);
+                if (d != 0 && d != 1) return P;
+            }
+
+            return Q;
+        }
+
+
     }
 
     public class GOST
@@ -212,6 +287,8 @@ namespace CryptographyLib
             yP = BigInteger.Parse("42098178416750523198643432544018510845496542305814546233883323764837032783338");
             q = BigInteger.Parse("28948022311447321620565877468725157875067316353637126186229732812867492750347");
         }
+
+
 
         public EllipticCurve(string sA, string sB, string sp, string sxP, string syP, string sq)
         {

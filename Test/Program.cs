@@ -1,131 +1,52 @@
-﻿using CryptographyLib;
+﻿// Клиенское приложение
+using CryptographyLib;
 using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 
 
-BigInteger[] getContinuedFraction(BigInteger b, BigInteger a, int limit, out int size)
-{
-    BigInteger[] coeffs = new BigInteger[limit];
-
-    for (size = 0; size < limit; size++)
-    {
-        BigInteger div = BigInteger.Divide(b, a);
-        coeffs[size] = div;
-        BigInteger t = a;
-        BigInteger.DivRem(b, a, out a); //остаток  a = b - div * a;
-        b = t;
-        if (a == 0) break;
-    }
-    return coeffs;
-}
+Console.WriteLine("Введите границу базы простых чисел D:");
+string? mstr = Console.ReadLine();
+Console.WriteLine("Введите факторизуемое число:");
+string? nstr = Console.ReadLine();
+if (nstr == null) return;
+BigInteger n = BigInteger.Parse(nstr);
 
 
-BigInteger WienerAttack(BigInteger n, BigInteger e)
-{
-    int limit = 32; int size;
-    BigInteger[] coeffs = getContinuedFraction(n, e, limit, out size);
-
-    /*foreach (BigInteger coefficient in coeffs)
-    {
-        Console.WriteLine(coefficient.ToString());
-    }*/
-
-    BigInteger qi;
-    //BigInteger pi2 = 1, pi1 = 0;
-    BigInteger qi2 = 0, qi1 = 1;
-
-    int lenNBytes = 32;
-
-    for (int i = 0; i < limit; i++)
-    {
-        qi = coeffs[i] * qi1 + qi2;
-
-        BigInteger m = Cryptography.getRandomBigInteger(lenNBytes) % n;
-
-        if (BigInteger.ModPow(m, e * qi, n) == m) return qi;
-
-        qi2 = qi1;
-        qi1 = qi;
-    }
-
-    return 0;
-}
-
-BigInteger n = 1220275921, e = 1073780833;
-Console.WriteLine(WienerAttack(n, e));
-n = 2796304957;
-e = 1779399043;
-Console.WriteLine(WienerAttack(n, e));
+LenstraFactorisation lenstra = new LenstraFactorisation(Convert.ToInt16(mstr));
 
 
+Int64 tries;
+
+DateTime startTime = DateTime.Now;
 
 
+BigInteger d = lenstra.Factor(n, 1000000, out tries);
+
+TimeSpan difference = (DateTime.Now - startTime);
+string timeString = difference.Hours + ":" + difference.Minutes + ":" + difference.Seconds;
+
+Console.Clear();
+Console.WriteLine("Factorising number: " + n.ToString());
+Console.WriteLine("Found factor : " + d.ToString());
+Console.WriteLine("Total time: " + timeString);
+Console.WriteLine("Iterations: " + tries);
 
 
-
-
-
-return;
-
-BigInteger p1 = BigInteger.Parse("28383634463013533931739356077");
-// t = 19380265085840254491285433902460268744611336351034722096408992562558754544593
-// tA = 1125095555625344820451352329
-// tAB = 1125095555625344820451352329
 
 /*
-Generated prime: 11779627509269
-Generated prime: 267161487820018966909342704086828398431737366834966681877874561830185962764513577227076371974507697161285191228230707474998747208788691828051746899369421908156666007948967404135286756002733936385493485106523
-t (key):8173559240281143206369716588848558201407293035221686873373476518205632680466
-a:20050941495237
-tA:5224571659432
-tA (received):5224571659432
-b:225063686720639
-tAB:6503094376403
-tAB (received):6503094376403
-tB:11720080379584
-tB (received):11720080379584
-t (key):9228258897818
+//BigInteger factor1 = BigInteger.Parse("816090919034804801829483632676405325904602891528591278609217435184417988562991");
+//BigInteger factor2 = BigInteger.Parse("646734967453693699814719158526461074929200460362425027145449669290622486244349");
 
+//BigInteger factor1 = BigInteger.Parse("6744274345102754102145487");
+//BigInteger factor2 = BigInteger.Parse("2577569434851656888248393");
+BigInteger factor1 = BigInteger.Parse("68704624514115959561");
+BigInteger factor2 = BigInteger.Parse("52376460141248978561");
+BigInteger factor3 = BigInteger.Parse("8970383295884199319789357");
+BigInteger factor4 = BigInteger.Parse("9670369451257969922512591");
+BigInteger factor5 = BigInteger.Parse("7110452979724516125024877");
+
+
+//BigInteger n = factor1 * factor2 * factor3 * factor4 * factor5;
+BigInteger n = factor1 * factor2;
 */
-
-/*BigInteger t = BigInteger.Parse("8173559240281143206369716588848558201407293035221686873373476518205632680466");
-BigInteger a = BigInteger.Parse("20050941495237");
-BigInteger r = BigInteger.Parse("11779627509268");
-BigInteger tA = BigInteger.ModPow(t, a, r);*/
-
-
-byte[] data = new byte[1024];
-Array.Fill<byte>(data, 0x24);
-
-BigInteger d = BigInteger.Parse("55441196065363246126355624130324183196576709222340016572108097750006097525544");
-
-
-
-GOST gost = new GOST();
-
-byte[] sign = gost.Sign(d, data);
-bool result = gost.Verify(data, sign);
-Console.WriteLine(result);
-
-
-EllipticCurve curve = new EllipticCurve();
-
-/*curve.p = 97;
-curve.A = 2;
-curve.B = 3;
-curve.xP = 17;
-curve.yP = 10;*/
-
-
-EllipticCurvePoint P = new EllipticCurvePoint(curve.xP, curve.yP, curve);
-//EllipticCurvePoint Q = new EllipticCurvePoint(1, 43, curve);
-
-//EllipticCurvePoint R = EllipticCurvePoint.Add(P, Q);
-
-EllipticCurvePoint R = EllipticCurvePoint.Multiply(d, P);
-
-
-
-Console.WriteLine("x:" + R.x.ToString());
-Console.WriteLine("y:" + R.y.ToString());
